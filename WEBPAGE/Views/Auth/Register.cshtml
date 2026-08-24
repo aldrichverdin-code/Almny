@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join Almny and start learning</p>
+        </div>
+
+        <form asp-action="Register" method="post" class="auth-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FullName" class="form-label">Full Name</label>
+                <input asp-for="FullName" class="form-control" placeholder="Enter your full name" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">Email Address</label>
+                <input asp-for="Email" type="email" class="form-control" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Create a password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Role" class="form-label">I want to...</label>
+                <select asp-for="Role" class="form-control">
+                    <option value="Student">Learn as a Student</option>
+                    <option value="Instructor">Teach as an Instructor</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-gold btn-block">Create Account</button>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="@Url.Action("Login", "Auth")">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .auth-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 200px);
+        padding: 2rem;
+    }
+
+    .auth-card {
+        background: var(--paper);
+        border-radius: 12px;
+        padding: 2.5rem;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .auth-title {
+        font-family: var(--ff-serif);
+        font-size: 2rem;
+        font-weight: 300;
+        color: var(--ink);
+        margin-bottom: 0.25rem;
+    }
+
+    .auth-subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--ink);
+        margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+    .btn-block {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1.05rem;
+        margin-top: 0.5rem;
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+        .auth-footer a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .auth-footer a:hover {
+                text-decoration: underline;
+            }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.85rem;
+        display: block;
+        margin-top: 0.25rem;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

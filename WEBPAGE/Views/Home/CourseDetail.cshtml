@@ -1,0 +1,152 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = Model.Title;
+    var isEnrolled = ViewBag.IsEnrolled ?? false;
+}
+
+<div style="background: var(--ink); color: var(--paper); padding: 2.5rem 2rem;">
+    <div style="max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start;">
+        <div>
+            <a href="@Url.Action("Index")" class="btn btn-ghost btn-sm" style="color: rgba(244, 241, 235, 0.5); padding-left: 0">
+                ← Back to courses
+            </a>
+            <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-top: 1rem;">
+                @(Model.Category ?? "General")
+            </div>
+            <h1 style="font-family: var(--ff-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; margin: 0.5rem 0 0.75rem;">
+                @Model.Title
+            </h1>
+            <p style="font-size: 0.9rem; color: rgba(244, 241, 235, 0.7); line-height: 1.7; max-width: 560px;">
+                @(Model.Description ?? "No description provided.")
+            </p>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; font-size: 0.82rem; color: rgba(244, 241, 235, 0.55);">
+                <span>👤 @(Model.Instructor?.FullName ?? "Instructor")</span>
+            </div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 1.5rem; min-width: 220px;">
+            <div style="font-family: var(--ff-serif); font-size: 2rem; font-weight: 600; color: var(--gold); margin-bottom: 0.3rem;">
+                @(Model.Price == 0 ? "Free" : $"${Model.Price:F2}")
+            </div>
+            <div style="font-size: 0.78rem; color: rgba(244, 241, 235, 0.5); margin-bottom: 1.2rem;">
+                @(Model.Price == 0 ? "Always free" : "One-time payment")
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <button class="btn btn-gold" style="width: 100%" onclick="enrollInCourse('@Model.Id')" @(isEnrolled ? "disabled" : "")>
+                    @(isEnrolled ? "✓ Enrolled" : "Enrol Now")
+                </button>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Auth")" class="btn btn-gold" style="width: 100%; text-align: center;">Sign In to Enrol</a>
+            }
+            <div class="mt-1 text-sm" style="color: rgba(244, 241, 235, 0.4); text-align: center; font-size: 0.72rem;">
+                Instant access on enrolment
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-inner" style="padding-top: 1.5rem;">
+    @if (Model.Sections?.Any() == true)
+    {
+        <h2 class="text-serif" style="font-size: 1.4rem; font-weight: 400; margin-bottom: 1.2rem;">Course Content</h2>
+        <div style="display: flex; flex-direction: column; gap: .75rem;">
+            @foreach (var sec in Model.Sections.OrderBy(s => s.Order))
+            {
+                <div class="card" style="cursor: default;">
+                    <div class="card-body" style="padding: 1.1rem 1.25rem;">
+                        <div style="font-weight: 600; font-size: .75rem; margin-bottom: .6rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase;">
+                            Section @sec.Order
+                        </div>
+                        <div class="text-serif" style="font-size: 1.1rem; margin-bottom: .75rem;">@sec.Title</div>
+                        <div style="display: flex; flex-direction: column; gap: .3rem;">
+                            @foreach (var lesson in sec.Lessons.OrderBy(l => l.Order))
+                            {
+                                <div class="lesson-row">
+                                    <div class="lesson-num">@lesson.Order</div>
+                                    <div class="lesson-name">@lesson.Title</div>
+                                    @if (lesson.IsFreePreview)
+                                    {
+                                        <span class="lesson-badge free">Free Preview</span>
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <button class="btn btn-ghost btn-sm" onclick="completeLesson('@lesson.Id', this)" title="Mark complete">✓</button>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>No sections yet</h3>
+            <p>This course is being built. Check back soon!</p>
+        </div>
+    }
+</div>
+@section Scripts {
+    <script>
+        async function enrollInCourse(courseId) {
+            try {
+                const response = await fetch('@(ViewBag.ApiBaseUrl)/api/enrollments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ courseId })
+                });
+                if (response.ok) {
+                    showToast('Enrolled! Head to My Learning.');
+                    location.reload();
+                } else {
+                    throw new Error('Failed to enroll');
+                }
+            } catch (e) {
+                showToast(e.message, 'error');
+            }
+        }
+
+        async function completeLesson(lessonId, btn) {
+            try {
+                const response = await fetch('@(ViewBag.ApiBaseUrl)/api/progress/complete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ lessonId })
+                });
+                if (response.ok) {
+                    btn.closest('.lesson-row').classList.add('completed');
+                    btn.closest('.lesson-row').querySelector('.lesson-num').textContent = '✓';
+                    showToast('Lesson marked complete!');
+                } else {
+                    throw new Error('Failed to complete lesson');
+                }
+            } catch (e) {
+                showToast(e.message, 'error');
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `toast toast-${type}`;
+            t.textContent = msg;
+            container.appendChild(t);
+            setTimeout(() => {
+                t.style.animation = 'fadeOut .3s ease forwards';
+                setTimeout(() => t.remove(), 300);
+            }, 3200);
+        }
+    </script>
+}

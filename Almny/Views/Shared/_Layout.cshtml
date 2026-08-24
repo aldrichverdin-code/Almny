@@ -1,0 +1,72 @@
+﻿@using Almny.Models
+@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Almny — @ViewData["Title"]</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="nav" id="main-nav">
+        <div class="nav-brand" onclick="location.href='/'">Almn<span>y</span></div>
+        <div class="nav-links">
+            <a class="nav-btn active" href="@Url.Action("Index", "Home")">
+                <span>Discover</span>
+            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Student"))
+                {
+                    <a class="nav-btn" href="@Url.Action("Index", "Dashboard")">
+                        <span>My Learning</span>
+                    </a>
+                }
+                @if (User.IsInRole("Instructor") || User.IsInRole("Admin"))
+                {
+                    <a class="nav-btn" href="@Url.Action("Instructor", "Dashboard")">
+                        <span>Instructor</span>
+                    </a>
+                }
+            }
+        </div>
+        <div class="nav-auth">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="nav-user-info">@User.Identity.Name</span>
+                <span class="nav-user-role">@(User.FindFirst(ClaimTypes.Role)?.Value ?? "Student")</span>
+                <form asp-controller="Auth" asp-action="Logout" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-ghost btn-sm">Sign Out</button>
+                </form>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Auth")" class="btn btn-outline btn-sm">Sign In</a>
+                <a href="@Url.Action("Register", "Auth")" class="btn btn-gold btn-sm">Join Free</a>
+            }
+        </div>
+    </nav>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,178 @@
+﻿@model List<Almny.Models.Course>
+@{
+    ViewData["Title"] = "Learn Without Limits";
+}
+
+<!-- HERO -->
+<section class="hero">
+    <p class="hero-eyebrow">The Knowledge Platform</p>
+    <h1 class="hero-title">
+        Learn. Grow.<br /><em>Master Your Craft.</em>
+    </h1>
+    <p class="hero-sub">
+        Expert-led courses designed for ambitious learners. From beginner to
+        advanced — your journey starts here.
+    </p>
+    <div class="hero-cta">
+        <button class="btn btn-gold btn-lg" onclick="scrollToCourses()">
+            Browse Courses
+        </button>
+        <a href="@Url.Action("Register", "Auth")"
+           class="btn btn-outline btn-lg"
+           style="border-color: rgba(244, 241, 235, 0.35); color: var(--paper)">
+            Start for Free
+        </a>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-value">@Model.Count</div>
+        <div class="stat-label">Courses</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Roles</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">AI</div>
+        <div class="stat-label">Quiz Gen</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">JWT</div>
+        <div class="stat-label">Secure Auth</div>
+    </div>
+</div>
+
+<!-- COURSES -->
+<div class="page-inner" id="courses-section">
+    <div class="section-header flex-between">
+        <div>
+            <div class="section-eyebrow">Catalogue</div>
+            <h2 class="section-title">All Courses</h2>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center">
+            <input type="search" class="form-input" style="width: 200px"
+                   placeholder="Search…" id="searchInput" oninput="filterCourses(this.value)" />
+        </div>
+    </div>
+    <div class="course-grid" id="courses-grid">
+        @foreach (var course in Model)
+        {
+            <div class="course-card" onclick="location.href='@Url.Action("CourseDetail", "Home", new { id = course.Id })'">
+                <div class="course-thumb" style="background: @GetCategoryColor(course.Category)">
+                    @if (!string.IsNullOrEmpty(course.ThumbnailUrl))
+                    {
+                        <div class="course-thumb-art" style="background-image:url('@course.ThumbnailUrl')"></div>
+                    }
+                    <div class="course-thumb-icon">@GetCategoryIcon(course.Category)</div>
+                    <div class="course-category-badge">@(course.Category ?? "General")</div>
+                </div>
+                <div class="course-info">
+                    <div class="course-title">@course.Title</div>
+                    <div class="course-instructor">By @(course.Instructor?.FullName ?? "Instructor")</div>
+                    <div class="course-meta">
+                        <div class="course-price @(course.Price == 0 ? "free" : "")">
+                            @(course.Price == 0 ? "Free" : $"${course.Price:F2}")
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-outline btn-sm course-enroll-btn"
+                                    onclick="event.stopPropagation(); quickEnroll('@course.Id', this)">
+                                Enrol
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    string GetCategoryColor(string category)
+    {
+        return category?.ToLower() switch
+        {
+            "programming" => "#1e3a5f",
+            "design" => "#3d1a1a",
+            "business" => "#1a3d2b",
+            "marketing" => "#3d2a1a",
+            "science" => "#1a2a3d",
+            _ => "#1a1a2e"
+        };
+    }
+
+    string GetCategoryIcon(string category)
+    {
+        return category?.ToLower() switch
+        {
+            "programming" => "💻",
+            "design" => "🎨",
+            "business" => "📈",
+            "marketing" => "📣",
+            "science" => "🔬",
+            "math" => "📐",
+            "language" => "🗣",
+            "music" => "🎵",
+            _ => "📚"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        function scrollToCourses() {
+            document.getElementById('courses-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function filterCourses(query) {
+            const cards = document.querySelectorAll('.course-card');
+            const q = query.toLowerCase();
+            cards.forEach(card => {
+                const title = card.querySelector('.course-title')?.textContent?.toLowerCase() || '';
+                const cat = card.querySelector('.course-category-badge')?.textContent?.toLowerCase() || '';
+                card.style.display = (title.includes(q) || cat.includes(q)) ? '' : 'none';
+            });
+        }
+
+        async function quickEnroll(courseId, btn) {
+            btn.disabled = true;
+            btn.textContent = '…';
+            try {
+                const response = await fetch('@(ViewBag.ApiBaseUrl)/api/enrollments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ courseId })
+                });
+                if (response.ok) {
+                    btn.textContent = '✓';
+                    btn.classList.add('btn-gold');
+                    showToast('Successfully enrolled!');
+                } else {
+                    throw new Error('Failed to enroll');
+                }
+            } catch (e) {
+                btn.disabled = false;
+                btn.textContent = 'Enrol';
+                showToast(e.message, 'error');
+            }
+        }
+
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `toast toast-${type}`;
+            t.textContent = msg;
+            container.appendChild(t);
+            setTimeout(() => {
+                t.style.animation = 'fadeOut .3s ease forwards';
+                setTimeout(() => t.remove(), 300);
+            }, 3200);
+        }
+    </script>
+}

@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "Course Details";
+    var courseId = ViewBag.CourseId ?? 0;
+
+    var courses = new Dictionary<int, dynamic>
+    {
+        { 1, new {
+            Title = "Full-Stack Web Development",
+            Category = "Programming",
+            Instructor = "Jane Doe",
+            Price = "$49.99",
+            Description = "Master full-stack development with React, Node.js, and MongoDB. Build real-world applications from scratch.",
+            Sections = new List<dynamic> {
+                new { Title = "Getting Started", Lessons = new List<dynamic> {
+                    new { Num = 1, Name = "Introduction to Full-Stack", Free = true },
+                    new { Num = 2, Name = "Setting Up Development Environment", Free = false }
+                }},
+                new { Title = "Frontend with React", Lessons = new List<dynamic> {
+                    new { Num = 3, Name = "React Components and Hooks", Free = false },
+                    new { Num = 4, Name = "State Management with Redux", Free = false }
+                }},
+                new { Title = "Backend with Node.js", Lessons = new List<dynamic> {
+                    new { Num = 5, Name = "RESTful APIs with Express", Free = false },
+                    new { Num = 6, Name = "Database Integration with MongoDB", Free = false }
+                }}
+            },
+            Exam = new { Title = "Final Exam - Full-Stack Development", Questions = 15, Duration = 45, PassingScore = 75 }
+        }},
+        { 2, new {
+            Title = "UI/UX Design Mastery",
+            Category = "Design",
+            Instructor = "Mike Smith",
+            Price = "Free",
+            Description = "Learn the principles of UI/UX design, from user research to prototyping. Create stunning designs with Figma.",
+            Sections = new List<dynamic> {
+                new { Title = "Design Fundamentals", Lessons = new List<dynamic> {
+                    new { Num = 1, Name = "Introduction to UI/UX", Free = true },
+                    new { Num = 2, Name = "Design Principles and Psychology", Free = false }
+                }},
+                new { Title = "Tools and Prototyping", Lessons = new List<dynamic> {
+                    new { Num = 3, Name = "Figma Masterclass", Free = false },
+                    new { Num = 4, Name = "Creating Interactive Prototypes", Free = false }
+                }}
+            },
+            Exam = new { Title = "Final Exam - UI/UX Design", Questions = 10, Duration = 30, PassingScore = 70 }
+        }},
+        { 3, new {
+            Title = "Startup & Business Strategy",
+            Category = "Business",
+            Instructor = "Sarah Connor",
+            Price = "$79.00",
+            Description = "Learn how to build and scale a successful startup. Covers business strategy, fundraising, and growth hacking.",
+            Sections = new List<dynamic> {
+                new { Title = "Business Fundamentals", Lessons = new List<dynamic> {
+                    new { Num = 1, Name = "Business Model Canvas", Free = true },
+                    new { Num = 2, Name = "Market Research and Validation", Free = false }
+                }},
+                new { Title = "Growth and Scaling", Lessons = new List<dynamic> {
+                    new { Num = 3, Name = "Growth Hacking Strategies", Free = false },
+                    new { Num = 4, Name = "Fundraising and Pitch Decks", Free = false }
+                }}
+            },
+            Exam = new { Title = "Final Exam - Business Strategy", Questions = 12, Duration = 40, PassingScore = 70 }
+        }},
+        { 4, new {
+            Title = "Digital Marketing 360",
+            Category = "Marketing",
+            Instructor = "Alex Rivera",
+            Price = "$34.99",
+            Description = "Complete digital marketing course covering SEO, social media, email marketing, and analytics.",
+            Sections = new List<dynamic> {
+                new { Title = "Marketing Fundamentals", Lessons = new List<dynamic> {
+                    new { Num = 1, Name = "Digital Marketing Overview", Free = true },
+                    new { Num = 2, Name = "Marketing Funnel Strategy", Free = false }
+                }},
+                new { Title = "Channels and Analytics", Lessons = new List<dynamic> {
+                    new { Num = 3, Name = "SEO and Content Marketing", Free = false },
+                    new { Num = 4, Name = "Social Media and Email Marketing", Free = false }
+                }}
+            },
+            Exam = new { Title = "Final Exam - Digital Marketing", Questions = 10, Duration = 30, PassingScore = 65 }
+        }}
+    };
+
+    var course = courses.ContainsKey(courseId) ? courses[courseId] : courses[1];
+}
+
+<div class="page active" id="page-course">
+    <div style="background: var(--ink); color: var(--paper); padding: 2.5rem 2rem;">
+        <div style="max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start;">
+            <div>
+                <a href="/Home/Index" class="btn btn-ghost btn-sm" style="color: rgba(244, 241, 235, 0.5); padding-left: 0;">
+                    ← Back to courses
+                </a>
+                <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-top: 1rem;">
+                    @course.Category
+                </div>
+                <h1 style="font-family: var(--ff-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; margin: 0.5rem 0 0.75rem;">
+                    @course.Title
+                </h1>
+                <p style="font-size: 0.9rem; color: rgba(244, 241, 235, 0.7); line-height: 1.7; max-width: 560px;">
+                    @course.Description
+                </p>
+                <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; font-size: 0.82rem; color: rgba(244, 241, 235, 0.55);">
+                    <span>👤 @course.Instructor</span>
+                </div>
+            </div>
+            <div style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 1.5rem; min-width: 220px;">
+                <div style="font-family: var(--ff-serif); font-size: 2rem; font-weight: 600; color: var(--gold); margin-bottom: 0.3rem;">
+                    @course.Price
+                </div>
+                <div style="font-size: 0.78rem; color: rgba(244, 241, 235, 0.5); margin-bottom: 1.2rem;">
+                    @(course.Price == "Free" ? "Free course" : "One-time payment")
+                </div>
+                <button class="btn btn-gold" style="width: 100%;">
+                    @(course.Price == "Free" ? "Start Learning" : "Enrol Now")
+                </button>
+                <div class="mt-1 text-sm" style="color: rgba(244, 241, 235, 0.4); text-align: center; font-size: 0.72rem;">
+                    @(course.Price == "Free" ? "Free lifetime access" : "Instant access on enrolment")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner" style="padding-top: 1.5rem;">
+        <div id="detail-content">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <h3 style="font-family: var(--ff-serif); font-size: 1.3rem; margin-bottom: 1rem;">Course Curriculum</h3>
+
+                @foreach (var sec in course.Sections)
+                {
+                    <div style="border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.75rem; overflow: hidden;">
+                        <div style="background: var(--cream); padding: 0.75rem 1rem; font-weight: 600;">
+                            @sec.Title
+                        </div>
+                        <div style="padding: 0.5rem;">
+                            @foreach (var les in sec.Lessons)
+                            {
+                                <div class="lesson-row">
+                                    <span class="lesson-num">@les.Num</span>
+                                    <span class="lesson-name">@les.Name</span>
+                                    <span class="lesson-badge @(les.Free ? "free" : "")">@(les.Free ? "Free" : "Premium")</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                <h3 style="font-family: var(--ff-serif); font-size: 1.3rem; margin-bottom: 1rem;">📝 Course Exam</h3>
+                <div class="exam-card">
+                    <div class="exam-title-wrap">
+                        <div class="exam-title">@course.Exam.Title</div>
+                        <div class="exam-meta">
+                            <span>📋 @course.Exam.Questions questions</span>
+                            <span>⏱️ @course.Exam.Duration minutes</span>
+                            <span>✅ Passing score: @course.Exam.PassingScore%</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-gold btn-sm">Start Exam</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

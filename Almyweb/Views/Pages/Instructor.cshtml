@@ -1,0 +1,251 @@
+﻿@{
+    ViewData["Title"] = "Instructor";
+}
+
+<div class="page active" id="page-dashboard">
+    <div class="page-inner">
+        <div class="section-header">
+            <div class="section-eyebrow">Instructor Hub</div>
+            <h2 class="section-title">Dashboard</h2>
+            <p class="section-sub">
+                Manage your courses, content, and AI-powered quizzes
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="dash-grid" id="dash-stats">
+            <div class="dash-stat">
+                <div class="dash-stat-icon gold">📚</div>
+                <div>
+                    <div class="dash-stat-val">0</div>
+                    <div class="dash-stat-lbl">Your Courses</div>
+                </div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-icon sage">🏫</div>
+                <div>
+                    <div class="dash-stat-val">—</div>
+                    <div class="dash-stat-lbl">Total Platform Courses</div>
+                </div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-icon ink">🤖</div>
+                <div>
+                    <div class="dash-stat-val">AI</div>
+                    <div class="dash-stat-lbl">Quiz Generator</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <span class="tab active">My Courses</span>
+            <span class="tab">Create Course</span>
+            <span class="tab">Add Section</span>
+            <span class="tab">Add Lesson</span>
+            <span class="tab">Create Exam</span>
+            <span class="tab">AI Quiz</span>
+        </div>
+
+        <!-- My Courses -->
+        <div id="dash-courses">
+            <div class="course-grid" id="my-courses-grid">
+                <div class="empty-state" style="grid-column: 1/-1">
+                    <div class="empty-state-icon">🎓</div>
+                    <h3>No courses yet</h3>
+                    <p>Switch to "Create Course" to publish your first course</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Course -->
+        <div id="dash-create" class="hidden">
+            <div class="form-section" style="max-width: 640px">
+                <div class="form-section-title">New Course</div>
+                <div style="display: flex; flex-direction: column; gap: 1rem">
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <label class="form-label">Title *</label>
+                            <input type="text" class="form-input" placeholder="Course title" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <input type="text" class="form-input" placeholder="e.g. Programming" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea class="form-textarea" placeholder="What will students learn?"></textarea>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <label class="form-label">Thumbnail URL</label>
+                            <input type="url" class="form-input" placeholder="https://…" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Price (0 = Free)</label>
+                            <input type="number" class="form-input" placeholder="0" min="0" step="0.01" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Publish Course →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Section -->
+        <div id="dash-sections" class="hidden">
+            <div class="form-section" style="max-width: 480px">
+                <div class="form-section-title">Add Section to Course</div>
+                <div style="display: flex; flex-direction: column; gap: 1rem">
+                    <div class="form-group">
+                        <label class="form-label">Course *</label>
+                        <select class="form-select">
+                            <option value="">Select a course</option>
+                            <option>Course 1</option>
+                            <option>Course 2</option>
+                            <option>Course 3</option>
+                        </select>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <label class="form-label">Section Title *</label>
+                            <input type="text" class="form-input" placeholder="e.g. Introduction" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Order</label>
+                            <input type="number" class="form-input" value="1" min="1" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Add Section →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Lesson -->
+        <div id="dash-lessons" class="hidden">
+            <div class="form-section" style="max-width: 560px">
+                <div class="form-section-title">Add Lesson to Section</div>
+                <div style="display: flex; flex-direction: column; gap: 1rem">
+                    <div class="form-group">
+                        <label class="form-label">Section ID *</label>
+                        <input type="text" class="form-input" placeholder="Section UUID" />
+                        <span class="form-hint">Copy the section ID from your course sections</span>
+                    </div>
+                    <div class="form-two-col">
+                        <div class="form-group">
+                            <label class="form-label">Title *</label>
+                            <input type="text" class="form-input" placeholder="Lesson title" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Order</label>
+                            <input type="number" class="form-input" value="1" min="1" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Video URL</label>
+                        <input type="url" class="form-input" placeholder="https://…" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Content / Notes</label>
+                        <textarea class="form-textarea" placeholder="Lesson notes, transcript, or description…"></textarea>
+                    </div>
+                    <div class="form-group" style="flex-direction: row; align-items: center; gap: 0.5rem">
+                        <input type="checkbox" id="les-free" style="width: 16px; height: 16px; accent-color: var(--gold)" />
+                        <label for="les-free" class="form-label" style="margin: 0; text-transform: none; font-size: 0.85rem">Free Preview</label>
+                    </div>
+                    <button class="btn btn-primary">Add Lesson →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Exam -->
+        <div id="dash-exams" class="hidden">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 780px">
+                <div class="form-section">
+                    <div class="form-section-title">Create Exam</div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem">
+                        <div class="form-group">
+                            <label class="form-label">Course *</label>
+                            <select class="form-select">
+                                <option value="">Select a course</option>
+                                <option>Course 1</option>
+                                <option>Course 2</option>
+                                <option>Course 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Exam Title *</label>
+                            <input type="text" class="form-input" placeholder="e.g. Module 1 Quiz" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Duration (minutes) *</label>
+                            <input type="number" class="form-input" value="30" min="1" />
+                        </div>
+                        <button class="btn btn-primary">Create Exam →</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">Add Question</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem">
+                        <div class="form-group">
+                            <label class="form-label">Exam ID *</label>
+                            <input type="text" class="form-input" placeholder="Exam UUID" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Question *</label>
+                            <input type="text" class="form-input" placeholder="Question text" />
+                        </div>
+                        <div class="form-two-col" style="grid-template-columns: 1fr 1fr">
+                            <div class="form-group">
+                                <label class="form-label">Option A</label>
+                                <input type="text" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Option B</label>
+                                <input type="text" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Option C</label>
+                                <input type="text" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Option D</label>
+                                <input type="text" class="form-input" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Correct Answer (A/B/C/D)</label>
+                            <select class="form-select">
+                                <option>A</option>
+                                <option>B</option>
+                                <option>C</option>
+                                <option>D</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary">Add Question →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Quiz Generator -->
+        <div id="dash-ai" class="hidden">
+            <div style="max-width: 640px; display: flex; flex-direction: column; gap: 1.25rem">
+                <div class="ai-panel">
+                    <div class="ai-panel-title">🤖 AI Quiz Generator</div>
+                    <div class="ai-panel-sub">
+                        Paste lesson content and let AI generate 5 multiple-choice questions instantly.
+                    </div>
+                    <textarea class="form-textarea" id="ai-content" style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: var(--paper); min-height: 120px" placeholder="Paste your lesson content here…"></textarea>
+                    <button class="btn btn-gold mt-2">Generate Questions →</button>
+                </div>
+                <div id="ai-output" class="hidden">
+                    <div class="ai-panel">
+                        <div class="ai-panel-title mb-1">Generated Questions</div>
+                        <div class="ai-result">AI-generated questions will appear here</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

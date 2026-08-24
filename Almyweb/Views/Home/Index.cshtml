@@ -1,0 +1,124 @@
+﻿<!-- HERO -->
+<section class="hero">
+    <p class="hero-eyebrow">The Knowledge Platform</p>
+    <h1 class="hero-title">
+        Learn. Grow.<br /><em>Master Your Craft.</em>
+    </h1>
+    <p class="hero-sub">
+        Expert-led courses designed for ambitious learners. From beginner to
+        advanced — your journey starts here.
+    </p>
+    <div class="hero-cta">
+        <a href="#courses-section" class="btn btn-gold btn-lg">
+            Browse Courses
+        </a>
+        <a href="/Auth/Register" class="btn btn-outline btn-lg" style="border-color: rgba(244, 241, 235, 0.35); color: var(--paper)">
+            Start for Free
+        </a>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Courses</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Roles</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">AI</div>
+        <div class="stat-label">Quiz Gen</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value">JWT</div>
+        <div class="stat-label">Secure Auth</div>
+    </div>
+</div>
+
+<!-- COURSES -->
+<div class="page-inner" id="courses-section">
+    <div class="section-header flex-between">
+        <div>
+            <div class="section-eyebrow">Catalogue</div>
+            <h2 class="section-title">All Courses</h2>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center">
+            <input type="search" class="form-input" style="width: 200px" placeholder="Search…" />
+        </div>
+    </div>
+    <div class="course-grid" id="courses-grid">
+        <!-- Curso 1 -->
+        <a href="@Url.Action("CourseDetail", "Pages", new { id = 1 })" style="text-decoration: none; color: inherit;">
+            <div class="course-card">
+                <div class="course-thumb" style="background: #1e3a5f">
+                    <div class="course-thumb-icon">💻</div>
+                    <div class="course-category-badge">Programming</div>
+                </div>
+                <div class="course-info">
+                    <div class="course-title">Full-Stack Web Development</div>
+                    <div class="course-instructor">By Jane Doe</div>
+                    <div class="course-meta">
+                        <div class="course-price">$49.99</div>
+                        <span class="btn btn-outline btn-sm">Enrol</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <!-- Curso 2 -->
+        <a href="@Url.Action("CourseDetail", "Pages", new { id = 2 })" style="text-decoration: none; color: inherit;">
+            <div class="course-card">
+                <div class="course-thumb" style="background: #3d1a1a">
+                    <div class="course-thumb-icon">🎨</div>
+                    <div class="course-category-badge">Design</div>
+                </div>
+                <div class="course-info">
+                    <div class="course-title">UI/UX Design Mastery</div>
+                    <div class="course-instructor">By Mike Smith</div>
+                    <div class="course-meta">
+                        <div class="course-price free">Free</div>
+                        <span class="btn btn-outline btn-sm">Enrol</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <!-- Curso 3 -->
+        <a href="@Url.Action("CourseDetail", "Pages", new { id = 3 })" style="text-decoration: none; color: inherit;">
+            <div class="course-card">
+                <div class="course-thumb" style="background: #1a3d2b">
+                    <div class="course-thumb-icon">📈</div>
+                    <div class="course-category-badge">Business</div>
+                </div>
+                <div class="course-info">
+                    <div class="course-title">Startup &amp; Business Strategy</div>
+                    <div class="course-instructor">By Sarah Connor</div>
+                    <div class="course-meta">
+                        <div class="course-price">$79.00</div>
+                        <span class="btn btn-outline btn-sm">Enrol</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <!-- Curso 4 -->
+        <a href="@Url.Action("CourseDetail", "Pages", new { id = 4 })" style="text-decoration: none; color: inherit;">
+            <div class="course-card">
+                <div class="course-thumb" style="background: #3d2a1a">
+                    <div class="course-thumb-icon">📣</div>
+                    <div class="course-category-badge">Marketing</div>
+                </div>
+                <div class="course-info">
+                    <div class="course-title">Digital Marketing 360</div>
+                    <div class="course-instructor">By Alex Rivera</div>
+                    <div class="course-meta">
+                        <div class="course-price">$34.99</div>
+                        <span class="btn btn-outline btn-sm">Enrol</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+</div>

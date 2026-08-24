@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="auth-wrap">
+    <div class="auth-box">
+        <div class="auth-header">
+            <div class="auth-logo">Almn<span>y</span></div>
+            <div class="auth-subtitle">Welcome back</div>
+        </div>
+        <div class="auth-body">
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div style="background: var(--rust); color: #fff; padding: 0.75rem; border-radius: var(--r); font-size: 0.85rem;">
+                    @ViewBag.Error
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.Success))
+            {
+                <div style="background: var(--sage); color: #fff; padding: 0.75rem; border-radius: var(--r); font-size: 0.85rem;">
+                    @ViewBag.Success
+                </div>
+            }
+            <form method="post">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-input" placeholder="you@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-input" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Sign In →</button>
+            </form>
+            <div class="auth-switch">
+                Don't have an account? <a href="@Url.Action("Register")">Join Free</a>
+            </div>
+        </div>
+    </div>
+</div>

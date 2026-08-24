@@ -1,0 +1,2997 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Almny — Learn Without Limits</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── TOKENS ───────────────────────────────────────── */
+      :root {
+        --ink: #0a0a0f;
+        --paper: #f4f1eb;
+        --cream: #ede9df;
+        --gold: #c9a84c;
+        --gold-dim: #a8893a;
+        --rust: #c0553a;
+        --sage: #5a7a6a;
+        --muted: #7a7568;
+        --border: #d5cfc4;
+        --card: #ffffff;
+        --shadow: 0 2px 20px rgba(10, 10, 15, 0.08);
+        --shadow-lg: 0 8px 48px rgba(10, 10, 15, 0.14);
+        --r: 6px;
+        --ff-serif: "Cormorant Garamond", Georgia, serif;
+        --ff-sans: "Instrument Sans", sans-serif;
+        --ff-mono: "DM Mono", monospace;
+        --ease: cubic-bezier(0.22, 0.68, 0, 1.2);
+      }
+
+      /* ── RESET ────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+      body {
+        font-family: var(--ff-sans);
+        background: var(--paper);
+        color: var(--ink);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font-family: inherit;
+        outline: none;
+        border: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      /* ── UTILITY ──────────────────────────────────────── */
+      .hidden {
+        display: none !important;
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        clip: rect(0, 0, 0, 0);
+      }
+
+      /* ── SCROLLBAR ────────────────────────────────────── */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--cream);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 3px;
+      }
+
+      /* ── TOP NAV ──────────────────────────────────────── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(244, 241, 235, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 0 2rem;
+        height: 60px;
+      }
+      .nav-brand {
+        font-family: var(--ff-serif);
+        font-size: 1.6rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .nav-brand span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 0.25rem;
+        flex: 1;
+      }
+      .nav-btn {
+        font-family: var(--ff-sans);
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.45rem 0.9rem;
+        border-radius: var(--r);
+        cursor: pointer;
+        background: transparent;
+        color: var(--muted);
+        transition: all 0.18s;
+      }
+      .nav-btn:hover {
+        color: var(--ink);
+        background: var(--cream);
+      }
+      .nav-btn.active {
+        color: var(--ink);
+        background: var(--cream);
+        font-weight: 600;
+      }
+      .nav-auth {
+        display: flex;
+        gap: 0.6rem;
+        margin-left: auto;
+        align-items: center;
+      }
+      .nav-user-info {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-family: var(--ff-mono);
+      }
+      .nav-user-role {
+        font-size: 0.68rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 20px;
+        background: var(--gold);
+        color: var(--ink);
+        font-weight: 500;
+        text-transform: capitalize;
+      }
+
+      /* ── BUTTONS ──────────────────────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--ff-sans);
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        padding: 0.6rem 1.2rem;
+        border-radius: var(--r);
+        cursor: pointer;
+        transition: all 0.18s var(--ease);
+        border: none;
+        white-space: nowrap;
+      }
+      .btn-primary {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .btn-primary:hover {
+        background: #1e1e2a;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(10, 10, 15, 0.2);
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--ink);
+      }
+      .btn-gold:hover {
+        background: var(--gold-dim);
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--ink);
+        border: 1.5px solid var(--border);
+      }
+      .btn-outline:hover {
+        border-color: var(--ink);
+        background: var(--cream);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--muted);
+      }
+      .btn-ghost:hover {
+        color: var(--ink);
+      }
+      .btn-danger {
+        background: var(--rust);
+        color: #fff;
+      }
+      .btn-sm {
+        padding: 0.4rem 0.85rem;
+        font-size: 0.78rem;
+      }
+      .btn-lg {
+        padding: 0.85rem 1.8rem;
+        font-size: 0.9rem;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      /* ── FORMS ────────────────────────────────────────── */
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+      .form-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .form-input,
+      .form-select,
+      .form-textarea {
+        padding: 0.7rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r);
+        background: var(--card);
+        color: var(--ink);
+        font-size: 0.9rem;
+        transition:
+          border-color 0.18s,
+          box-shadow 0.18s;
+        width: 100%;
+      }
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+      }
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .form-hint {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .form-error {
+        font-size: 0.78rem;
+        color: var(--rust);
+      }
+
+      /* ── CARD ─────────────────────────────────────────── */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+      }
+      .card-body {
+        padding: 1.5rem;
+      }
+
+      /* ── TOAST ────────────────────────────────────────── */
+      #toast-container {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      .toast {
+        padding: 0.8rem 1.2rem;
+        border-radius: var(--r);
+        font-size: 0.83rem;
+        font-weight: 500;
+        max-width: 320px;
+        box-shadow: var(--shadow-lg);
+        animation: slideInRight 0.3s var(--ease) forwards;
+        pointer-events: all;
+      }
+      .toast-success {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .toast-error {
+        background: var(--rust);
+        color: #fff;
+      }
+      .toast-info {
+        background: var(--sage);
+        color: #fff;
+      }
+      @keyframes slideInRight {
+        from {
+          transform: translateX(110%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+      }
+
+      /* ── MODAL ────────────────────────────────────────── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(10, 10, 15, 0.5);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        animation: fadeIn 0.2s ease;
+      }
+      .modal {
+        background: var(--card);
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 520px;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: scaleIn 0.25s var(--ease);
+      }
+      .modal-header {
+        padding: 1.5rem 1.5rem 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      .modal-title {
+        font-family: var(--ff-serif);
+        font-size: 1.6rem;
+        font-weight: 400;
+      }
+      .modal-close {
+        background: none;
+        cursor: pointer;
+        font-size: 1.3rem;
+        color: var(--muted);
+        padding: 0.2rem;
+        line-height: 1;
+        transition: color 0.15s;
+      }
+      .modal-close:hover {
+        color: var(--ink);
+      }
+      .modal-body {
+        padding: 1.25rem 1.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.93);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* ── PAGE WRAPPER ─────────────────────────────────── */
+      .page {
+        display: none;
+        animation: pageFade 0.3s ease;
+      }
+      .page.active {
+        display: block;
+      }
+      @keyframes pageFade {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .page-inner {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      /* ── SECTION TITLE ────────────────────────────────── */
+      .section-header {
+        margin-bottom: 1.75rem;
+      }
+      .section-eyebrow {
+        font-family: var(--ff-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.4rem;
+      }
+      .section-title {
+        font-family: var(--ff-serif);
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1.2;
+      }
+      .section-sub {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-top: 0.4rem;
+      }
+
+      /* ── HERO ─────────────────────────────────────────── */
+      .hero {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 5rem 2rem 5rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 50%,
+            rgba(201, 168, 76, 0.12) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 80% at 80% 30%,
+            rgba(90, 122, 106, 0.1) 0%,
+            transparent 55%
+          );
+        pointer-events: none;
+      }
+      .hero-eyebrow {
+        font-family: var(--ff-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1rem;
+      }
+      .hero-title {
+        font-family: var(--ff-serif);
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 300;
+        line-height: 1.05;
+        margin-bottom: 1.2rem;
+      }
+      .hero-title em {
+        font-style: italic;
+        color: var(--gold);
+      }
+      .hero-sub {
+        font-size: 1rem;
+        color: rgba(244, 241, 235, 0.7);
+        max-width: 500px;
+        margin: 0 auto 2.2rem;
+        line-height: 1.7;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ── STATS BAR ────────────────────────────────────── */
+      .stats-bar {
+        display: flex;
+        gap: 0;
+        background: var(--cream);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .stat-item {
+        flex: 1;
+        text-align: center;
+        padding: 1.2rem 1rem;
+        border-right: 1px solid var(--border);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-value {
+        font-family: var(--ff-serif);
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+      }
+
+      /* ── COURSE GRID ──────────────────────────────────── */
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+      }
+      .course-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+        cursor: pointer;
+        position: relative;
+      }
+      .course-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-3px);
+      }
+      .course-thumb {
+        height: 156px;
+        background: var(--ink);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .course-thumb-art {
+        position: absolute;
+        inset: 0;
+        opacity: 0.7;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.4s;
+      }
+      .course-card:hover .course-thumb-art {
+        transform: scale(1.04);
+      }
+      .course-thumb-icon {
+        font-size: 2.5rem;
+        z-index: 1;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+      }
+      .course-category-badge {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        font-family: var(--ff-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: rgba(10, 10, 15, 0.75);
+        color: var(--gold);
+        padding: 0.25rem 0.65rem;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+        z-index: 2;
+      }
+      .course-info {
+        padding: 1.1rem 1.2rem 1.2rem;
+      }
+      .course-title {
+        font-family: var(--ff-serif);
+        font-size: 1.15rem;
+        font-weight: 400;
+        line-height: 1.3;
+        margin-bottom: 0.4rem;
+      }
+      .course-instructor {
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+      }
+      .course-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .course-price {
+        font-family: var(--ff-serif);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .course-price.free {
+        color: var(--sage);
+      }
+      .course-enroll-btn {
+        flex-shrink: 0;
+      }
+
+      /* ── EMPTY STATE ──────────────────────────────────── */
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--muted);
+      }
+      .empty-state-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.4;
+      }
+      .empty-state h3 {
+        font-family: var(--ff-serif);
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+      }
+      .empty-state p {
+        font-size: 0.9rem;
+      }
+
+      /* ── TABS ─────────────────────────────────────────── */
+      .tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 1.75rem;
+      }
+      .tab {
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        padding: 0.65rem 1.1rem;
+        cursor: pointer;
+        color: var(--muted);
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.18s;
+        background: none;
+      }
+      .tab:hover {
+        color: var(--ink);
+      }
+      .tab.active {
+        color: var(--ink);
+        border-bottom-color: var(--gold);
+        font-weight: 600;
+      }
+
+      /* ── PROGRESS BAR ─────────────────────────────────── */
+      .progress-bar-wrap {
+        height: 6px;
+        background: var(--cream);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--gold), var(--gold-dim));
+        border-radius: 3px;
+        transition: width 0.6s var(--ease);
+      }
+
+      /* ── LESSON LIST ──────────────────────────────────── */
+      .lesson-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: var(--r);
+        border: 1px solid transparent;
+        transition: all 0.15s;
+        cursor: pointer;
+      }
+      .lesson-row:hover {
+        background: var(--cream);
+        border-color: var(--border);
+      }
+      .lesson-row.completed {
+        opacity: 0.7;
+      }
+      .lesson-num {
+        width: 28px;
+        height: 28px;
+        background: var(--cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--ff-mono);
+        font-size: 0.7rem;
+        flex-shrink: 0;
+        color: var(--muted);
+      }
+      .lesson-row.completed .lesson-num {
+        background: var(--sage);
+        color: #fff;
+      }
+      .lesson-name {
+        font-size: 0.9rem;
+        flex: 1;
+      }
+      .lesson-badge {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 20px;
+        background: var(--cream);
+        color: var(--muted);
+        font-family: var(--ff-mono);
+        letter-spacing: 0.05em;
+      }
+      .lesson-badge.free {
+        background: rgba(90, 122, 106, 0.15);
+        color: var(--sage);
+      }
+
+      /* ── EXAM CARD ────────────────────────────────────── */
+      .exam-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        transition: box-shadow 0.2s;
+      }
+      .exam-card:hover {
+        box-shadow: var(--shadow-lg);
+      }
+      .exam-title-wrap {
+        flex: 1;
+      }
+      .exam-title {
+        font-family: var(--ff-serif);
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+      }
+      .exam-meta {
+        font-size: 0.78rem;
+        color: var(--muted);
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      /* ── QUIZ SCREEN ──────────────────────────────────── */
+      .quiz-progress-header {
+        background: var(--ink);
+        color: var(--paper);
+        padding: 1.2rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-radius: 10px 10px 0 0;
+      }
+      .quiz-q-counter {
+        font-family: var(--ff-mono);
+        font-size: 0.75rem;
+        color: var(--gold);
+        letter-spacing: 0.08em;
+      }
+      .quiz-body {
+        padding: 1.5rem;
+      }
+      .quiz-question {
+        font-family: var(--ff-serif);
+        font-size: 1.25rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .quiz-option {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.85rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r);
+        cursor: pointer;
+        transition: all 0.15s;
+        background: var(--card);
+        text-align: left;
+        font-size: 0.9rem;
+      }
+      .quiz-option:hover {
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.06);
+      }
+      .quiz-option.selected {
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.1);
+        font-weight: 500;
+      }
+      .quiz-option-letter {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        background: var(--cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--ff-mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+      }
+      .quiz-option.selected .quiz-option-letter {
+        background: var(--gold);
+        color: var(--ink);
+      }
+
+      /* ── SCORE RESULT ─────────────────────────────────── */
+      .score-display {
+        text-align: center;
+        padding: 2.5rem 2rem;
+      }
+      .score-circle {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 0 0 10px rgba(201, 168, 76, 0.15);
+      }
+      .score-num {
+        font-family: var(--ff-serif);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1;
+      }
+      .score-label {
+        font-size: 0.75rem;
+        color: rgba(10, 10, 15, 0.6);
+      }
+
+      /* ── AI PANEL ─────────────────────────────────────── */
+      .ai-panel {
+        background: var(--ink);
+        border-radius: 10px;
+        padding: 1.5rem;
+        color: var(--paper);
+        position: relative;
+        overflow: hidden;
+      }
+      .ai-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 70% 70% at 100% 0%,
+          rgba(201, 168, 76, 0.12),
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      .ai-panel-title {
+        font-family: var(--ff-serif);
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
+      }
+      .ai-panel-sub {
+        font-size: 0.82rem;
+        color: rgba(244, 241, 235, 0.6);
+        margin-bottom: 1rem;
+      }
+      .ai-result {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--r);
+        padding: 1rem;
+        font-size: 0.85rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        font-family: var(--ff-mono);
+        color: rgba(244, 241, 235, 0.9);
+        max-height: 360px;
+        overflow-y: auto;
+      }
+      .ai-spinner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: rgba(244, 241, 235, 0.6);
+        font-size: 0.85rem;
+      }
+      .spinner-dots {
+        display: flex;
+        gap: 0.3rem;
+      }
+      .spinner-dots span {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        animation: dotBounce 1.2s infinite ease-in-out both;
+      }
+      .spinner-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .spinner-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes dotBounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+          opacity: 0.4;
+        }
+        40% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* ── DASHBOARD ────────────────────────────────────── */
+      .dash-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .dash-stat {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.2rem 1.4rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .dash-stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .dash-stat-icon.gold {
+        background: rgba(201, 168, 76, 0.15);
+      }
+      .dash-stat-icon.sage {
+        background: rgba(90, 122, 106, 0.15);
+      }
+      .dash-stat-icon.rust {
+        background: rgba(192, 85, 58, 0.15);
+      }
+      .dash-stat-icon.ink {
+        background: rgba(10, 10, 15, 0.08);
+      }
+      .dash-stat-val {
+        font-family: var(--ff-serif);
+        font-size: 1.7rem;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .dash-stat-lbl {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-top: 0.2rem;
+      }
+
+      /* ── AUTH PAGE ────────────────────────────────────── */
+      .auth-wrap {
+        min-height: calc(100vh - 60px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background:
+          radial-gradient(
+            ellipse 60% 60% at 10% 20%,
+            rgba(201, 168, 76, 0.07),
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 50% 50% at 90% 80%,
+            rgba(90, 122, 106, 0.06),
+            transparent 55%
+          );
+      }
+      .auth-box {
+        width: 100%;
+        max-width: 440px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+      }
+      .auth-header {
+        padding: 2rem 2rem 0;
+        text-align: center;
+      }
+      .auth-logo {
+        font-family: var(--ff-serif);
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+      }
+      .auth-logo span {
+        color: var(--gold);
+      }
+      .auth-subtitle {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+      .auth-body {
+        padding: 1.25rem 2rem 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .auth-switch {
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .auth-switch a {
+        color: var(--gold);
+        cursor: pointer;
+        font-weight: 500;
+      }
+      .auth-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--border);
+        font-size: 0.75rem;
+      }
+      .auth-divider::before,
+      .auth-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ── INSTRUCTOR CREATE COURSE ─────────────────────── */
+      .form-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .form-section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.5rem;
+      }
+      .form-section-title {
+        font-family: var(--ff-serif);
+        font-size: 1.1rem;
+        margin-bottom: 1.1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* ── MISC ─────────────────────────────────────────── */
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.72rem;
+        font-family: var(--ff-mono);
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        letter-spacing: 0.05em;
+      }
+      .chip-gold {
+        background: rgba(201, 168, 76, 0.15);
+        color: var(--gold-dim);
+      }
+      .chip-sage {
+        background: rgba(90, 122, 106, 0.15);
+        color: var(--sage);
+      }
+      .chip-rust {
+        background: rgba(192, 85, 58, 0.15);
+        color: var(--rust);
+      }
+
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 1.5rem 0;
+      }
+
+      .flex {
+        display: flex;
+      }
+      .flex-between {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .gap-1 {
+        gap: 0.5rem;
+      }
+      .gap-2 {
+        gap: 1rem;
+      }
+      .gap-3 {
+        gap: 1.5rem;
+      }
+      .mb-1 {
+        margin-bottom: 0.5rem;
+      }
+      .mb-2 {
+        margin-bottom: 1rem;
+      }
+      .mb-3 {
+        margin-bottom: 1.5rem;
+      }
+      .mt-1 {
+        margin-top: 0.5rem;
+      }
+      .mt-2 {
+        margin-top: 1rem;
+      }
+      .text-muted {
+        color: var(--muted);
+      }
+      .text-sm {
+        font-size: 0.82rem;
+      }
+      .text-serif {
+        font-family: var(--ff-serif);
+      }
+      .text-mono {
+        font-family: var(--ff-mono);
+      }
+      .text-gold {
+        color: var(--gold);
+      }
+      .fw-6 {
+        font-weight: 600;
+      }
+
+      @media (max-width: 640px) {
+        .form-two-col {
+          grid-template-columns: 1fr;
+        }
+        .stats-bar {
+          flex-wrap: wrap;
+        }
+        .stat-item {
+          flex: 0 0 50%;
+        }
+        .hero {
+          padding: 3.5rem 1.25rem;
+        }
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        .nav-links .nav-btn span {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── NAV ─────────────────────────────────────────── -->
+    <nav class="nav" id="main-nav">
+      <div class="nav-brand" onclick="navigate('home')">Almn<span>y</span></div>
+      <div class="nav-links" id="nav-links">
+        <button
+          class="nav-btn active"
+          onclick="navigate('home')"
+          data-page="home"
+        >
+          <span>Discover</span>
+        </button>
+        <button
+          class="nav-btn"
+          onclick="navigate('my-learning')"
+          data-page="my-learning"
+          id="nav-my-learning"
+          style="display: none"
+        >
+          <span>My Learning</span>
+        </button>
+        <button
+          class="nav-btn"
+          onclick="navigate('dashboard')"
+          data-page="dashboard"
+          id="nav-instructor"
+          style="display: none"
+        >
+          <span>Instructor</span>
+        </button>
+      </div>
+      <div class="nav-auth" id="nav-auth">
+        <button class="btn btn-outline btn-sm" onclick="showAuthModal('login')">
+          Sign In
+        </button>
+        <button class="btn btn-gold btn-sm" onclick="showAuthModal('register')">
+          Join Free
+        </button>
+      </div>
+      <div class="nav-auth hidden" id="nav-user">
+        <span class="nav-user-info" id="nav-user-name"></span>
+        <span class="nav-user-role" id="nav-user-role"></span>
+        <button class="btn btn-ghost btn-sm" onclick="logout()">
+          Sign Out
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── TOAST CONTAINER ─────────────────────────────── -->
+    <div id="toast-container"></div>
+
+    <!-- ── MODAL CONTAINER ─────────────────────────────── -->
+    <div id="modal-root"></div>
+
+    <!-- ════════════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════════════ -->
+    <div class="page active" id="page-home">
+      <!-- Hero -->
+      <section class="hero">
+        <p class="hero-eyebrow">The Knowledge Platform</p>
+        <h1 class="hero-title">
+          Learn. Grow.<br /><em>Master Your Craft.</em>
+        </h1>
+        <p class="hero-sub">
+          Expert-led courses designed for ambitious learners. From beginner to
+          advanced — your journey starts here.
+        </p>
+        <div class="hero-cta">
+          <button
+            class="btn btn-gold btn-lg"
+            onclick="scrollToSection('courses-section')"
+          >
+            Browse Courses
+          </button>
+          <button
+            class="btn btn-outline btn-lg"
+            style="border-color: rgba(244, 241, 235, 0.35); color: var(--paper)"
+            onclick="showAuthModal('register')"
+          >
+            Start for Free
+          </button>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value" id="stat-courses">—</div>
+          <div class="stat-label">Courses</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Roles</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">AI</div>
+          <div class="stat-label">Quiz Gen</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">JWT</div>
+          <div class="stat-label">Secure Auth</div>
+        </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="page-inner" id="courses-section">
+        <div class="section-header flex-between">
+          <div>
+            <div class="section-eyebrow">Catalogue</div>
+            <h2 class="section-title">All Courses</h2>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center">
+            <input
+              type="search"
+              class="form-input"
+              style="width: 200px"
+              placeholder="Search…"
+              oninput="filterCourses(this.value)"
+            />
+          </div>
+        </div>
+        <div class="course-grid" id="courses-grid">
+          <div class="empty-state" style="grid-column: 1/-1">
+            <div class="empty-state-icon">📚</div>
+            <h3>Loading courses…</h3>
+            <p>Fetching the catalogue from the API</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     PAGE: MY LEARNING
+════════════════════════════════════════════════════ -->
+    <div class="page" id="page-my-learning">
+      <div class="page-inner">
+        <div class="section-header">
+          <div class="section-eyebrow">Student Portal</div>
+          <h2 class="section-title">My Learning</h2>
+          <p class="section-sub">
+            Track your progress and continue where you left off
+          </p>
+        </div>
+
+        <div class="tabs">
+          <button
+            class="tab active"
+            onclick="switchLearningTab('enrolled', this)"
+          >
+            Enrolled Courses
+          </button>
+          <button class="tab" onclick="switchLearningTab('progress', this)">
+            Lesson Progress
+          </button>
+          <button class="tab" onclick="switchLearningTab('exams', this)">
+            Exams
+          </button>
+        </div>
+
+        <!-- Enrolled -->
+        <div id="learning-enrolled">
+          <div class="course-grid" id="enrolled-grid">
+            <div class="empty-state" style="grid-column: 1/-1">
+              <div class="empty-state-icon">🎒</div>
+              <h3>No courses yet</h3>
+              <p>Browse the catalogue and enrol in your first course</p>
+              <button class="btn btn-gold mt-2" onclick="navigate('home')">
+                Browse Courses
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div id="learning-progress" class="hidden">
+          <div id="progress-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <h3>No progress yet</h3>
+              <p>Complete lessons to see them here</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exams -->
+        <div id="learning-exams" class="hidden">
+          <div id="exams-list">
+            <div class="empty-state">
+              <div class="empty-state-icon">📝</div>
+              <h3>No exams available</h3>
+              <p>Enrol in courses that have exams to see them here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     PAGE: INSTRUCTOR DASHBOARD
+════════════════════════════════════════════════════ -->
+    <div class="page" id="page-dashboard">
+      <div class="page-inner">
+        <div class="section-header">
+          <div class="section-eyebrow">Instructor Hub</div>
+          <h2 class="section-title">Dashboard</h2>
+          <p class="section-sub">
+            Manage your courses, content, and AI-powered quizzes
+          </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="dash-grid" id="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-icon gold">📚</div>
+            <div>
+              <div class="dash-stat-val" id="d-stat-courses">0</div>
+              <div class="dash-stat-lbl">Your Courses</div>
+            </div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-icon sage">🏫</div>
+            <div>
+              <div class="dash-stat-val" id="d-stat-total">—</div>
+              <div class="dash-stat-lbl">Total Platform Courses</div>
+            </div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-icon ink">🤖</div>
+            <div>
+              <div class="dash-stat-val">AI</div>
+              <div class="dash-stat-lbl">Quiz Generator</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" onclick="switchDashTab('courses', this)">
+            My Courses
+          </button>
+          <button class="tab" onclick="switchDashTab('create', this)">
+            Create Course
+          </button>
+          <button class="tab" onclick="switchDashTab('sections', this)">
+            Add Section
+          </button>
+          <button class="tab" onclick="switchDashTab('lessons', this)">
+            Add Lesson
+          </button>
+          <button class="tab" onclick="switchDashTab('exams', this)">
+            Create Exam
+          </button>
+          <button class="tab" onclick="switchDashTab('ai', this)">
+            AI Quiz
+          </button>
+        </div>
+
+        <!-- My Courses -->
+        <div id="dash-courses">
+          <div class="course-grid" id="my-courses-grid">
+            <div class="empty-state" style="grid-column: 1/-1">
+              <div class="empty-state-icon">🎓</div>
+              <h3>No courses yet</h3>
+              <p>Switch to "Create Course" to publish your first course</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Course -->
+        <div id="dash-create" class="hidden">
+          <div class="form-section" style="max-width: 640px">
+            <div class="form-section-title">New Course</div>
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div class="form-two-col">
+                <div class="form-group">
+                  <label class="form-label">Title *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="cc-title"
+                    placeholder="Course title"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Category *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="cc-category"
+                    placeholder="e.g. Programming"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Description *</label>
+                <textarea
+                  class="form-textarea"
+                  id="cc-desc"
+                  placeholder="What will students learn?"
+                ></textarea>
+              </div>
+              <div class="form-two-col">
+                <div class="form-group">
+                  <label class="form-label">Thumbnail URL</label>
+                  <input
+                    type="url"
+                    class="form-input"
+                    id="cc-thumb"
+                    placeholder="https://…"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Price (0 = Free)</label>
+                  <input
+                    type="number"
+                    class="form-input"
+                    id="cc-price"
+                    placeholder="0"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="createCourse()">
+                Publish Course →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Section -->
+        <div id="dash-sections" class="hidden">
+          <div class="form-section" style="max-width: 480px">
+            <div class="form-section-title">Add Section to Course</div>
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div class="form-group">
+                <label class="form-label">Course *</label>
+                <select class="form-select" id="sec-course">
+                  <option value="">Select a course</option>
+                </select>
+              </div>
+              <div class="form-two-col">
+                <div class="form-group">
+                  <label class="form-label">Section Title *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="sec-title"
+                    placeholder="e.g. Introduction"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Order</label>
+                  <input
+                    type="number"
+                    class="form-input"
+                    id="sec-order"
+                    value="1"
+                    min="1"
+                  />
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="createSection()">
+                Add Section →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Lesson -->
+        <div id="dash-lessons" class="hidden">
+          <div class="form-section" style="max-width: 560px">
+            <div class="form-section-title">Add Lesson to Section</div>
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <div class="form-group">
+                <label class="form-label">Section ID *</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="les-section"
+                  placeholder="Section UUID"
+                />
+                <span class="form-hint"
+                  >Copy the section ID from your course sections</span
+                >
+              </div>
+              <div class="form-two-col">
+                <div class="form-group">
+                  <label class="form-label">Title *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="les-title"
+                    placeholder="Lesson title"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Order</label>
+                  <input
+                    type="number"
+                    class="form-input"
+                    id="les-order"
+                    value="1"
+                    min="1"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Video URL</label>
+                <input
+                  type="url"
+                  class="form-input"
+                  id="les-video"
+                  placeholder="https://…"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Content / Notes</label>
+                <textarea
+                  class="form-textarea"
+                  id="les-content"
+                  placeholder="Lesson notes, transcript, or description…"
+                ></textarea>
+              </div>
+              <div
+                class="form-group"
+                style="flex-direction: row; align-items: center; gap: 0.5rem"
+              >
+                <input
+                  type="checkbox"
+                  id="les-free"
+                  style="width: 16px; height: 16px; accent-color: var(--gold)"
+                />
+                <label
+                  for="les-free"
+                  class="form-label"
+                  style="margin: 0; text-transform: none; font-size: 0.85rem"
+                  >Free Preview</label
+                >
+              </div>
+              <button class="btn btn-primary" onclick="createLesson()">
+                Add Lesson →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Create Exam -->
+        <div id="dash-exams" class="hidden">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 1.5rem;
+              max-width: 780px;
+            "
+          >
+            <div class="form-section">
+              <div class="form-section-title">Create Exam</div>
+              <div style="display: flex; flex-direction: column; gap: 1rem">
+                <div class="form-group">
+                  <label class="form-label">Course *</label>
+                  <select class="form-select" id="ex-course">
+                    <option value="">Select a course</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Exam Title *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="ex-title"
+                    placeholder="e.g. Module 1 Quiz"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Duration (minutes) *</label>
+                  <input
+                    type="number"
+                    class="form-input"
+                    id="ex-duration"
+                    value="30"
+                    min="1"
+                  />
+                </div>
+                <button class="btn btn-primary" onclick="createExam()">
+                  Create Exam →
+                </button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Add Question</div>
+              <div style="display: flex; flex-direction: column; gap: 0.8rem">
+                <div class="form-group">
+                  <label class="form-label">Exam ID *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="q-exam"
+                    placeholder="Exam UUID"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Question *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    id="q-text"
+                    placeholder="Question text"
+                  />
+                </div>
+                <div
+                  class="form-two-col"
+                  style="grid-template-columns: 1fr 1fr"
+                >
+                  <div class="form-group">
+                    <label class="form-label">Option A</label>
+                    <input type="text" class="form-input" id="q-a" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Option B</label>
+                    <input type="text" class="form-input" id="q-b" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Option C</label>
+                    <input type="text" class="form-input" id="q-c" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Option D</label>
+                    <input type="text" class="form-input" id="q-d" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Correct Answer (A/B/C/D)</label>
+                  <select class="form-select" id="q-correct">
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary" onclick="addQuestion()">
+                  Add Question →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Quiz Generator -->
+        <div id="dash-ai" class="hidden">
+          <div
+            style="
+              max-width: 640px;
+              display: flex;
+              flex-direction: column;
+              gap: 1.25rem;
+            "
+          >
+            <div class="ai-panel">
+              <div class="ai-panel-title">🤖 AI Quiz Generator</div>
+              <div class="ai-panel-sub">
+                Paste lesson content and let AI generate 5 multiple-choice
+                questions instantly.
+              </div>
+              <textarea
+                class="form-textarea"
+                id="ai-content"
+                style="
+                  background: rgba(255, 255, 255, 0.07);
+                  border: 1px solid rgba(255, 255, 255, 0.12);
+                  color: var(--paper);
+                  min-height: 120px;
+                "
+                placeholder="Paste your lesson content here…"
+              ></textarea>
+              <button
+                class="btn btn-gold mt-2"
+                onclick="generateQuiz()"
+                id="ai-btn"
+              >
+                Generate Questions →
+              </button>
+            </div>
+            <div id="ai-output" class="hidden">
+              <div class="ai-panel">
+                <div class="ai-panel-title mb-1">Generated Questions</div>
+                <div id="ai-result-text" class="ai-result"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     PAGE: COURSE DETAIL
+════════════════════════════════════════════════════ -->
+    <div class="page" id="page-course">
+      <div
+        style="
+          background: var(--ink);
+          color: var(--paper);
+          padding: 2.5rem 2rem;
+        "
+      >
+        <div
+          style="
+            max-width: 1140px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: start;
+          "
+        >
+          <div>
+            <button
+              class="btn btn-ghost btn-sm"
+              style="color: rgba(244, 241, 235, 0.5); padding-left: 0"
+              onclick="navigate('home')"
+            >
+              ← Back to courses
+            </button>
+            <div
+              style="
+                font-family: var(--ff-mono);
+                font-size: 0.7rem;
+                letter-spacing: 0.14em;
+                color: var(--gold);
+                margin-top: 1rem;
+              "
+              id="detail-cat"
+            ></div>
+            <h1
+              style="
+                font-family: var(--ff-serif);
+                font-size: clamp(1.8rem, 3vw, 2.6rem);
+                font-weight: 300;
+                margin: 0.5rem 0 0.75rem;
+              "
+              id="detail-title"
+            ></h1>
+            <p
+              style="
+                font-size: 0.9rem;
+                color: rgba(244, 241, 235, 0.7);
+                line-height: 1.7;
+                max-width: 560px;
+              "
+              id="detail-desc"
+            ></p>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 1.25rem;
+                font-size: 0.82rem;
+                color: rgba(244, 241, 235, 0.55);
+              "
+            >
+              <span>👤 <span id="detail-instructor"></span></span>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.12);
+              border-radius: 10px;
+              padding: 1.5rem;
+              min-width: 220px;
+            "
+          >
+            <div
+              style="
+                font-family: var(--ff-serif);
+                font-size: 2rem;
+                font-weight: 600;
+                color: var(--gold);
+                margin-bottom: 0.3rem;
+              "
+              id="detail-price"
+            ></div>
+            <div
+              style="
+                font-size: 0.78rem;
+                color: rgba(244, 241, 235, 0.5);
+                margin-bottom: 1.2rem;
+              "
+              id="detail-price-label"
+            ></div>
+            <button
+              class="btn btn-gold"
+              style="width: 100%"
+              id="detail-enroll-btn"
+              onclick="enrollInCourse()"
+            >
+              Enrol Now
+            </button>
+            <div
+              class="mt-1 text-sm"
+              style="
+                color: rgba(244, 241, 235, 0.4);
+                text-align: center;
+                font-size: 0.72rem;
+              "
+            >
+              Instant access on enrolment
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-inner" style="padding-top: 1.5rem">
+        <div id="detail-content">
+          <div class="empty-state">
+            <div class="empty-state-icon">⏳</div>
+            <h3>Loading course content…</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+     PAGE: EXAM TAKING
+════════════════════════════════════════════════════ -->
+    <div class="page" id="page-exam">
+      <div class="page-inner" style="max-width: 720px">
+        <button
+          class="btn btn-ghost btn-sm mb-2"
+          style="padding-left: 0"
+          onclick="navigate('my-learning')"
+        >
+          ← Back
+        </button>
+        <div id="exam-content">
+          <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <h3>Loading exam…</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ══════════════════════════════════════════════════════
+      // CONFIG
+      // ══════════════════════════════════════════════════════
+      const API = "https://localhost:7203"; // ← Change to your API base URL
+
+      // ══════════════════════════════════════════════════════
+      // STATE
+      // ══════════════════════════════════════════════════════
+      let state = {
+        token: localStorage.getItem("almny_token") || null,
+        user: JSON.parse(localStorage.getItem("almny_user") || "null"),
+        courses: [],
+        currentCourse: null,
+        currentExam: null,
+        examAnswers: {},
+        examQuestions: [],
+      };
+
+      // ══════════════════════════════════════════════════════
+      // API CLIENT
+      // ══════════════════════════════════════════════════════
+      async function api(method, path, body = null) {
+        const headers = { "Content-Type": "application/json" };
+        if (state.token) headers["Authorization"] = `Bearer ${state.token}`;
+        try {
+          const res = await fetch(`${API}/api${path}`, {
+            method,
+            headers,
+            body: body ? JSON.stringify(body) : null,
+          });
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch {
+            data = text;
+          }
+          if (!res.ok) {
+            const msg =
+              typeof data === "string"
+                ? data
+                : data?.message || data?.title || `Error ${res.status}`;
+            throw new Error(msg);
+          }
+          return data;
+        } catch (e) {
+          if (e.name === "TypeError")
+            throw new Error(
+              "Cannot connect to API. Make sure the backend is running.",
+            );
+          throw e;
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // TOAST
+      // ══════════════════════════════════════════════════════
+      function toast(msg, type = "success") {
+        const c = document.getElementById("toast-container");
+        const t = document.createElement("div");
+        t.className = `toast toast-${type}`;
+        t.textContent = msg;
+        c.appendChild(t);
+        setTimeout(() => {
+          t.style.animation = "fadeOut .3s ease forwards";
+          setTimeout(() => t.remove(), 300);
+        }, 3200);
+      }
+
+      // ══════════════════════════════════════════════════════
+      // NAVIGATION
+      // ══════════════════════════════════════════════════════
+      function navigate(page, data = null) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.remove("active"));
+
+        const el = document.getElementById(`page-${page}`);
+        if (el) el.classList.add("active");
+
+        const nb = document.querySelector(`[data-page="${page}"]`);
+        if (nb) nb.classList.add("active");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        if (page === "home") loadCourses();
+        if (page === "my-learning" && state.token) loadMyLearning();
+        if (page === "dashboard" && state.token) loadDashboard();
+        if (page === "course" && data) loadCourseDetail(data);
+        if (page === "exam" && data) loadExam(data);
+      }
+
+      function scrollToSection(id) {
+        document
+          .getElementById(id)
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      // ══════════════════════════════════════════════════════
+      // AUTH
+      // ══════════════════════════════════════════════════════
+      function showAuthModal(tab = "login") {
+        const html = `
+    <div class="auth-wrap" style="min-height:unset;padding:0;background:none;">
+      <div class="auth-box" style="max-width:100%;box-shadow:none;border:none;">
+        <div class="auth-header">
+          <div class="auth-logo">Almn<span>y</span></div>
+          <div class="auth-subtitle" id="auth-subtitle">${tab === "login" ? "Welcome back" : "Create your account"}</div>
+          <div class="tabs" style="justify-content:center;margin-bottom:0;">
+            <button class="tab ${tab === "login" ? "active" : ""}" id="tab-login" onclick="authTabSwitch('login')">Sign In</button>
+            <button class="tab ${tab === "register" ? "active" : ""}" id="tab-register" onclick="authTabSwitch('register')">Register</button>
+          </div>
+        </div>
+        <div class="auth-body" id="auth-form-body">
+          ${tab === "login" ? loginForm() : registerForm()}
+        </div>
+      </div>
+    </div>`;
+        openModal("", html);
+      }
+
+      function loginForm() {
+        return `
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="auth-email" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="auth-pass" placeholder="••••••••"
+        onkeydown="if(event.key==='Enter')doLogin()" />
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="doLogin()">Sign In →</button>`;
+      }
+
+      function registerForm() {
+        return `
+    <div class="form-group">
+      <label class="form-label">Full Name</label>
+      <input type="text" class="form-input" id="auth-name" placeholder="Your Name" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="auth-email" placeholder="you@example.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="auth-pass" placeholder="Min 6 characters" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Role</label>
+      <select class="form-select" id="auth-role">
+        <option value="Student">Student</option>
+        <option value="Instructor">Instructor</option>
+      </select>
+    </div>
+    <button class="btn btn-gold" style="width:100%" onclick="doRegister()">Create Account →</button>`;
+      }
+
+      function authTabSwitch(tab) {
+        document
+          .getElementById("tab-login")
+          .classList.toggle("active", tab === "login");
+        document
+          .getElementById("tab-register")
+          .classList.toggle("active", tab === "register");
+        document.getElementById("auth-subtitle").textContent =
+          tab === "login" ? "Welcome back" : "Create your account";
+        document.getElementById("auth-form-body").innerHTML =
+          tab === "login" ? loginForm() : registerForm();
+      }
+
+      async function doLogin() {
+        const email = document.getElementById("auth-email")?.value?.trim();
+        const pass = document.getElementById("auth-pass")?.value;
+        if (!email || !pass) return toast("Please fill all fields", "error");
+        try {
+          const res = await api("POST", "/auth/login", {
+            email,
+            password: pass,
+          });
+          state.token = res.token;
+          // Decode JWT to get user info
+          const payload = JSON.parse(atob(res.token.split(".")[1]));
+          state.user = {
+            id:
+              payload[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+              ] || payload.sub,
+            name:
+              payload[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+              ] ||
+              payload.name ||
+              email,
+            role:
+              payload[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ] ||
+              payload.role ||
+              "Student",
+          };
+          localStorage.setItem("almny_token", state.token);
+          localStorage.setItem("almny_user", JSON.stringify(state.user));
+          closeModal();
+          updateNavForAuth();
+          toast(`Welcome back, ${state.user.name.split(" ")[0]}!`);
+          navigate("home");
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function doRegister() {
+        const name = document.getElementById("auth-name")?.value?.trim();
+        const email = document.getElementById("auth-email")?.value?.trim();
+        const pass = document.getElementById("auth-pass")?.value;
+        const role = document.getElementById("auth-role")?.value || "Student";
+        if (!name || !email || !pass)
+          return toast("Please fill all fields", "error");
+        try {
+          await api("POST", "/auth/register", {
+            fullName: name,
+            email,
+            password: pass,
+            role,
+          });
+          toast("Account created! Please sign in.");
+          authTabSwitch("login");
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      function logout() {
+        state.token = null;
+        state.user = null;
+        localStorage.removeItem("almny_token");
+        localStorage.removeItem("almny_user");
+        updateNavForAuth();
+        navigate("home");
+        toast("Signed out successfully", "info");
+      }
+
+      function updateNavForAuth() {
+        const isAuth = !!state.token;
+        document.getElementById("nav-auth").classList.toggle("hidden", isAuth);
+        document.getElementById("nav-user").classList.toggle("hidden", !isAuth);
+        if (isAuth && state.user) {
+          document.getElementById("nav-user-name").textContent =
+            state.user.name;
+          document.getElementById("nav-user-role").textContent =
+            state.user.role;
+          document.getElementById("nav-my-learning").style.display =
+            state.user.role === "Student" ? "" : "none";
+          document.getElementById("nav-instructor").style.display =
+            state.user.role === "Instructor" || state.user.role === "Admin"
+              ? ""
+              : "none";
+        } else {
+          document.getElementById("nav-my-learning").style.display = "none";
+          document.getElementById("nav-instructor").style.display = "none";
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // MODAL
+      // ══════════════════════════════════════════════════════
+      function openModal(title, bodyHTML) {
+        const root = document.getElementById("modal-root");
+        root.innerHTML = `
+    <div class="modal-overlay" onclick="closeModal(event)">
+      <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header" style="${title ? "" : "padding-bottom:0"}">
+          ${title ? `<h2 class="modal-title">${title}</h2>` : "<div></div>"}
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">${bodyHTML}</div>
+      </div>
+    </div>`;
+      }
+
+      function closeModal(e) {
+        if (e && e.target !== document.querySelector(".modal-overlay")) return;
+        document.getElementById("modal-root").innerHTML = "";
+      }
+
+      // ══════════════════════════════════════════════════════
+      // COURSES
+      // ══════════════════════════════════════════════════════
+      const CATEGORY_COLORS = {
+        programming: "#1e3a5f",
+        design: "#3d1a1a",
+        business: "#1a3d2b",
+        marketing: "#3d2a1a",
+        science: "#1a2a3d",
+        default: "#1a1a2e",
+      };
+      const CATEGORY_ICONS = {
+        programming: "💻",
+        design: "🎨",
+        business: "📈",
+        marketing: "📣",
+        science: "🔬",
+        math: "📐",
+        language: "🗣",
+        music: "🎵",
+        default: "📚",
+      };
+
+      function getCatColor(cat) {
+        const k = (cat || "").toLowerCase();
+        return CATEGORY_COLORS[k] || CATEGORY_COLORS.default;
+      }
+      function getCatIcon(cat) {
+        const k = (cat || "").toLowerCase();
+        return CATEGORY_ICONS[k] || CATEGORY_ICONS.default;
+      }
+
+      async function loadCourses() {
+        try {
+          const courses = await api("GET", "/courses");
+          state.courses = courses;
+          document.getElementById("stat-courses").textContent = courses.length;
+          renderCourseGrid("courses-grid", courses, true);
+        } catch (e) {
+          document.getElementById("courses-grid").innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-state-icon">⚠️</div>
+        <h3>Couldn't load courses</h3>
+        <p>${e.message}</p>
+      </div>`;
+        }
+      }
+
+      function filterCourses(q) {
+        const filtered = state.courses.filter(
+          (c) =>
+            c.title.toLowerCase().includes(q.toLowerCase()) ||
+            (c.category || "").toLowerCase().includes(q.toLowerCase()),
+        );
+        renderCourseGrid("courses-grid", filtered, true);
+      }
+
+      function renderCourseGrid(containerId, courses, showEnroll = false) {
+        const grid = document.getElementById(containerId);
+        if (!courses || courses.length === 0) {
+          grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-state-icon">🔍</div>
+        <h3>No courses found</h3>
+        <p>Try a different search term</p>
+      </div>`;
+          return;
+        }
+        grid.innerHTML = courses
+          .map(
+            (c) => `
+    <div class="course-card" onclick="navigate('course', '${c.id}')">
+      <div class="course-thumb" style="background:${getCatColor(c.category)}">
+        ${
+          c.thumbnailUrl
+            ? `<div class="course-thumb-art" style="background-image:url('${c.thumbnailUrl}')"></div>`
+            : ""
+        }
+        <div class="course-thumb-icon">${getCatIcon(c.category)}</div>
+        <div class="course-category-badge">${c.category || "General"}</div>
+      </div>
+      <div class="course-info">
+        <div class="course-title">${c.title}</div>
+        <div class="course-instructor">By ${c.instructor?.fullName || "Instructor"}</div>
+        <div class="course-meta">
+          <div class="course-price ${c.price === 0 ? "free" : ""}">
+            ${c.price === 0 ? "Free" : `$${Number(c.price).toFixed(2)}`}
+          </div>
+          ${
+            showEnroll && state.token
+              ? `
+            <button class="btn btn-outline btn-sm course-enroll-btn"
+              onclick="event.stopPropagation();quickEnroll('${c.id}',this)">
+              Enrol
+            </button>`
+              : ""
+          }
+        </div>
+      </div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      async function quickEnroll(courseId, btn) {
+        if (!state.token) return showAuthModal("login");
+        btn.disabled = true;
+        btn.textContent = "…";
+        try {
+          await api("POST", "/enrollments", { courseId });
+          btn.textContent = "✓";
+          btn.classList.add("btn-gold");
+          toast("Successfully enrolled!");
+        } catch (e) {
+          btn.disabled = false;
+          btn.textContent = "Enrol";
+          toast(e.message, "error");
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // COURSE DETAIL
+      // ══════════════════════════════════════════════════════
+      async function loadCourseDetail(courseId) {
+        const course = state.courses.find((c) => c.id === courseId);
+        if (!course) return;
+        state.currentCourse = course;
+
+        document.getElementById("detail-cat").textContent =
+          course.category || "General";
+        document.getElementById("detail-title").textContent = course.title;
+        document.getElementById("detail-desc").textContent =
+          course.description || "No description provided.";
+        document.getElementById("detail-instructor").textContent =
+          course.instructor?.fullName || "Instructor";
+
+        const priceEl = document.getElementById("detail-price");
+        const lblEl = document.getElementById("detail-price-label");
+        if (course.price === 0) {
+          priceEl.textContent = "Free";
+          lblEl.textContent = "Always free";
+        } else {
+          priceEl.textContent = `$${Number(course.price).toFixed(2)}`;
+          lblEl.textContent = "One-time payment";
+        }
+
+        const sections = course.sections || [];
+        const enrollBtn = document.getElementById("detail-enroll-btn");
+        if (!state.token) {
+          enrollBtn.textContent = "Sign In to Enrol";
+          enrollBtn.onclick = () => showAuthModal("login");
+        }
+
+        const content = document.getElementById("detail-content");
+        if (sections.length === 0) {
+          content.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <h3>No sections yet</h3>
+        <p>This course is being built. Check back soon!</p>
+      </div>`;
+          return;
+        }
+
+        content.innerHTML = `
+    <h2 class="text-serif" style="font-size:1.4rem;font-weight:400;margin-bottom:1.2rem;">Course Content</h2>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      ${sections
+        .sort((a, b) => a.order - b.order)
+        .map(
+          (sec) => `
+        <div class="card" style="cursor:default;">
+          <div class="card-body" style="padding:1.1rem 1.25rem;">
+            <div style="font-weight:600;font-size:.9rem;margin-bottom:.6rem;color:var(--muted);
+              letter-spacing:.05em;text-transform:uppercase;font-size:.75rem;">
+              Section ${sec.order || ""}
+            </div>
+            <div class="text-serif" style="font-size:1.1rem;margin-bottom:.75rem;">${sec.title}</div>
+            <div style="display:flex;flex-direction:column;gap:.3rem;">
+              ${(sec.lessons || [])
+                .sort((a, b) => a.order - b.order)
+                .map(
+                  (l, i) => `
+                <div class="lesson-row">
+                  <div class="lesson-num">${i + 1}</div>
+                  <div class="lesson-name">${l.title}</div>
+                  ${l.isFreePreview ? '<span class="lesson-badge free">Free Preview</span>' : ""}
+                  ${
+                    state.token
+                      ? `
+                    <button class="btn btn-ghost btn-sm"
+                      onclick="completeLesson('${l.id}',this)"
+                      title="Mark complete">✓</button>`
+                      : ""
+                  }
+                </div>`,
+                )
+                .join("")}
+            </div>
+          </div>
+        </div>`,
+        )
+        .join("")}
+    </div>`;
+      }
+
+      async function enrollInCourse() {
+        if (!state.token) return showAuthModal("login");
+        if (!state.currentCourse) return;
+        try {
+          await api("POST", "/enrollments", {
+            courseId: state.currentCourse.id,
+          });
+          toast("Enrolled! Head to My Learning.");
+          document.getElementById("detail-enroll-btn").textContent =
+            "✓ Enrolled";
+          document.getElementById("detail-enroll-btn").disabled = true;
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function completeLesson(lessonId, btn) {
+        try {
+          await api("POST", "/progress/complete", { lessonId });
+          btn.closest(".lesson-row").classList.add("completed");
+          btn.closest(".lesson-row").querySelector(".lesson-num").textContent =
+            "✓";
+          toast("Lesson marked complete!");
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // MY LEARNING
+      // ══════════════════════════════════════════════════════
+      function switchLearningTab(tab, btn) {
+        document
+          .querySelectorAll("#page-my-learning .tab")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        ["enrolled", "progress", "exams"].forEach((t) =>
+          document
+            .getElementById(`learning-${t}`)
+            .classList.toggle("hidden", t !== tab),
+        );
+        if (tab === "progress") loadProgress();
+        if (tab === "exams") loadMyExams();
+      }
+
+      async function loadMyLearning() {
+        try {
+          const courses = await api("GET", "/enrollments/my-courses");
+          const grid = document.getElementById("enrolled-grid");
+          if (!courses.length) {
+            grid.innerHTML = `
+        <div class="empty-state" style="grid-column:1/-1">
+          <div class="empty-state-icon">🎒</div>
+          <h3>No courses yet</h3>
+          <p>Browse the catalogue and enrol in your first course</p>
+          <button class="btn btn-gold mt-2" onclick="navigate('home')">Browse Courses</button>
+        </div>`;
+          } else {
+            renderCourseGrid("enrolled-grid", courses, false);
+          }
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function loadProgress() {
+        try {
+          const progress = await api("GET", "/progress/my-progress");
+          const container = document.getElementById("progress-list");
+          if (!progress.length) {
+            container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📊</div>
+          <h3>No progress yet</h3>
+          <p>Complete lessons to see them here</p>
+        </div>`;
+            return;
+          }
+          container.innerHTML = `
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+        ${progress
+          .map(
+            (p) => `
+          <div style="display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);">
+            <div style="width:28px;height:28px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;flex-shrink:0;">✓</div>
+            <div style="flex:1;">
+              <div style="font-size:.9rem;">${p.lesson?.title || "Lesson"}</div>
+              <div style="font-size:.72rem;color:var(--muted);font-family:var(--ff-mono);">
+                Completed ${new Date(p.completedAt).toLocaleDateString()}
+              </div>
+            </div>
+          </div>`,
+          )
+          .join("")}
+      </div>`;
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function loadMyExams() {
+        // Show enrolled courses' exams
+        try {
+          const courses = await api("GET", "/enrollments/my-courses");
+          const allCourses = state.courses.length
+            ? state.courses
+            : await api("GET", "/courses");
+          const enrolledIds = courses.map((c) => c.id);
+          const exams = allCourses
+            .filter((c) => enrolledIds.includes(c.id))
+            .flatMap((c) =>
+              (c.exams || []).map((e) => ({ ...e, courseName: c.title })),
+            );
+
+          const container = document.getElementById("exams-list");
+          if (!exams.length) {
+            container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📝</div>
+          <h3>No exams available</h3>
+          <p>Exams for your enrolled courses will appear here</p>
+        </div>`;
+            return;
+          }
+          container.innerHTML = `<div style="display:flex;flex-direction:column;gap:.75rem;">
+      ${exams
+        .map(
+          (e) => `
+        <div class="exam-card">
+          <div class="exam-title-wrap">
+            <div class="exam-title">${e.title}</div>
+            <div class="exam-meta">
+              <span>📚 ${e.courseName}</span>
+              <span>⏱ ${e.durationMinutes} min</span>
+            </div>
+          </div>
+          <button class="btn btn-gold btn-sm" onclick="navigate('exam','${e.id}')">Take Exam →</button>
+        </div>`,
+        )
+        .join("")}
+    </div>`;
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // EXAM TAKING
+      // ══════════════════════════════════════════════════════
+      async function loadExam(examId) {
+        // Find exam in state
+        const allCourses = state.courses;
+        let exam = null;
+        let questions = [];
+        for (const c of allCourses) {
+          const found = (c.exams || []).find((e) => e.id === examId);
+          if (found) {
+            exam = found;
+            questions = found.questions || [];
+            break;
+          }
+        }
+
+        state.currentExam = examId;
+        state.examAnswers = {};
+        state.examQuestions = questions;
+
+        const container = document.getElementById("exam-content");
+
+        if (!exam) {
+          container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">❌</div>
+        <h3>Exam not found</h3>
+        <p>Could not find exam data. Please ensure the API returns exam questions.</p>
+      </div>`;
+          return;
+        }
+
+        if (!questions.length) {
+          container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <h3>No questions yet</h3>
+        <p>This exam has no questions added yet.</p>
+        <button class="btn btn-gold mt-2" onclick="navigate('my-learning')">← Back</button>
+      </div>`;
+          return;
+        }
+
+        renderExamQuestion(0, exam, questions);
+      }
+
+      function renderExamQuestion(idx, exam, questions) {
+        const q = questions[idx];
+        const total = questions.length;
+        const container = document.getElementById("exam-content");
+        const pct = Math.round((idx / total) * 100);
+
+        container.innerHTML = `
+    <div class="card" style="cursor:default;border-radius:10px;overflow:hidden;">
+      <div class="quiz-progress-header">
+        <div style="flex:1">
+          <div class="quiz-q-counter">Question ${idx + 1} of ${total}</div>
+          <div style="font-size:.85rem;color:rgba(244,241,235,.7);margin-top:.2rem;">${exam.title}</div>
+        </div>
+        <div style="text-align:right;font-family:var(--ff-mono);font-size:.75rem;color:var(--gold);">${pct}%</div>
+      </div>
+      <div style="padding:0 1.5rem .5rem;background:var(--ink);">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-question">${idx + 1}. ${q.text}</div>
+        <div class="quiz-options">
+          ${[
+            ["A", q.optionA],
+            ["B", q.optionB],
+            ["C", q.optionC],
+            ["D", q.optionD],
+          ]
+            .map(
+              ([letter, text]) => `
+            <button class="quiz-option ${state.examAnswers[q.id] === letter ? "selected" : ""}"
+              onclick="selectAnswer('${q.id}','${letter}',${idx},this)">
+              <span class="quiz-option-letter">${letter}</span>
+              <span>${text || letter}</span>
+            </button>`,
+            )
+            .join("")}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;">
+          <button class="btn btn-ghost" onclick="renderExamQuestion(${idx - 1},window._currentExam,window._currentQs)"
+            ${idx === 0 ? "disabled" : ""}>← Prev</button>
+          ${
+            idx < total - 1
+              ? `<button class="btn btn-primary" onclick="renderExamQuestion(${idx + 1},window._currentExam,window._currentQs)">Next →</button>`
+              : `<button class="btn btn-gold" onclick="submitExam()">Submit Exam →</button>`
+          }
+        </div>
+      </div>
+    </div>`;
+
+        window._currentExam = exam;
+        window._currentQs = questions;
+      }
+
+      function selectAnswer(questionId, letter, idx, btn) {
+        state.examAnswers[questionId] = letter;
+        btn
+          .closest(".quiz-options")
+          .querySelectorAll(".quiz-option")
+          .forEach((b) => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      }
+
+      async function submitExam() {
+        try {
+          const answers = state.examAnswers;
+          const res = await api("POST", "/exams/submit", {
+            examId: state.currentExam,
+            answers,
+          });
+          const pct = Math.round((res.score / res.total) * 100);
+          const container = document.getElementById("exam-content");
+          container.innerHTML = `
+      <div class="card" style="cursor:default;border-radius:10px;overflow:hidden;">
+        <div class="score-display">
+          <div class="score-circle">
+            <div>
+              <div class="score-num">${res.score}/${res.total}</div>
+              <div class="score-label">${pct}%</div>
+            </div>
+          </div>
+          <h2 class="text-serif" style="font-size:1.8rem;font-weight:400;margin-bottom:.5rem;">
+            ${pct >= 70 ? "🎉 Congratulations!" : "📚 Keep Studying!"}
+          </h2>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;">
+            You scored <strong>${res.score}</strong> out of <strong>${res.total}</strong> questions correctly.
+          </p>
+          <div class="progress-bar-wrap" style="max-width:280px;margin:0 auto 1.5rem;height:8px;">
+            <div class="progress-bar-fill" style="width:${pct}%"></div>
+          </div>
+          <button class="btn btn-outline" onclick="navigate('my-learning')">← Back to My Learning</button>
+        </div>
+      </div>`;
+          toast(
+            `Score: ${res.score}/${res.total} — ${pct}%`,
+            pct >= 70 ? "success" : "info",
+          );
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // INSTRUCTOR DASHBOARD
+      // ══════════════════════════════════════════════════════
+      function switchDashTab(tab, btn) {
+        document
+          .querySelectorAll("#page-dashboard .tab")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        ["courses", "create", "sections", "lessons", "exams", "ai"].forEach(
+          (t) =>
+            document
+              .getElementById(`dash-${t}`)
+              .classList.toggle("hidden", t !== tab),
+        );
+        if (tab === "sections" || tab === "exams") populateCourseSelects();
+      }
+
+      async function loadDashboard() {
+        try {
+          const courses = await api("GET", "/courses");
+          state.courses = courses;
+          const myCourses = courses.filter(
+            (c) => c.instructorId === state.user?.id,
+          );
+          document.getElementById("d-stat-courses").textContent =
+            myCourses.length;
+          document.getElementById("d-stat-total").textContent = courses.length;
+          renderCourseGrid(
+            "my-courses-grid",
+            myCourses.length ? myCourses : courses,
+            false,
+          );
+          populateCourseSelects();
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      function populateCourseSelects() {
+        const courses = state.courses;
+        const html = courses
+          .map((c) => `<option value="${c.id}">${c.title}</option>`)
+          .join("");
+        ["sec-course", "ex-course"].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el)
+            el.innerHTML = `<option value="">Select a course</option>${html}`;
+        });
+      }
+
+      async function createCourse() {
+        const title = document.getElementById("cc-title").value.trim();
+        const desc = document.getElementById("cc-desc").value.trim();
+        const thumb = document.getElementById("cc-thumb").value.trim();
+        const category = document.getElementById("cc-category").value.trim();
+        const price =
+          parseFloat(document.getElementById("cc-price").value) || 0;
+        if (!title || !category)
+          return toast("Title and category are required", "error");
+        try {
+          await api("POST", "/courses", {
+            title,
+            description: desc,
+            thumbnailUrl: thumb,
+            category,
+            price,
+          });
+          toast("Course published!");
+          [
+            "cc-title",
+            "cc-desc",
+            "cc-thumb",
+            "cc-category",
+            "cc-price",
+          ].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
+          await loadDashboard();
+          switchDashTab(
+            "courses",
+            document.querySelector("#page-dashboard .tab"),
+          );
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function createSection() {
+        const courseId = document.getElementById("sec-course").value;
+        const title = document.getElementById("sec-title").value.trim();
+        const order = parseInt(document.getElementById("sec-order").value) || 1;
+        if (!courseId || !title)
+          return toast("Course and section title required", "error");
+        try {
+          await api("POST", "/sections", { courseId, title, order });
+          toast("Section added!");
+          document.getElementById("sec-title").value = "";
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function createLesson() {
+        const sectionId = document.getElementById("les-section").value.trim();
+        const title = document.getElementById("les-title").value.trim();
+        const videoUrl = document.getElementById("les-video").value.trim();
+        const content = document.getElementById("les-content").value.trim();
+        const order = parseInt(document.getElementById("les-order").value) || 1;
+        const isFreePreview = document.getElementById("les-free").checked;
+        if (!sectionId || !title)
+          return toast("Section ID and title are required", "error");
+        try {
+          await api("POST", "/lessons", {
+            sectionId,
+            title,
+            videoUrl,
+            content,
+            order,
+            isFreePreview,
+          });
+          toast("Lesson added!");
+          ["les-section", "les-title", "les-video", "les-content"].forEach(
+            (id) => {
+              const el = document.getElementById(id);
+              if (el) el.value = "";
+            },
+          );
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function createExam() {
+        const courseId = document.getElementById("ex-course").value;
+        const title = document.getElementById("ex-title").value.trim();
+        const durationMinutes =
+          parseInt(document.getElementById("ex-duration").value) || 30;
+        if (!courseId || !title)
+          return toast("Course and exam title required", "error");
+        try {
+          const exam = await api("POST", "/exams", {
+            courseId,
+            title,
+            durationMinutes,
+          });
+          toast(`Exam created! ID: ${exam.id}`);
+          document.getElementById("ex-title").value = "";
+          // Auto-fill exam ID in question form
+          const qExam = document.getElementById("q-exam");
+          if (qExam) qExam.value = exam.id;
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      async function addQuestion() {
+        const examId = document.getElementById("q-exam").value.trim();
+        const text = document.getElementById("q-text").value.trim();
+        const optionA = document.getElementById("q-a").value.trim();
+        const optionB = document.getElementById("q-b").value.trim();
+        const optionC = document.getElementById("q-c").value.trim();
+        const optionD = document.getElementById("q-d").value.trim();
+        const correctAnswer = document.getElementById("q-correct").value;
+        if (!examId || !text)
+          return toast("Exam ID and question text required", "error");
+        try {
+          await api("POST", "/exams/question", {
+            examId,
+            text,
+            optionA,
+            optionB,
+            optionC,
+            optionD,
+            correctAnswer,
+          });
+          toast("Question added!");
+          ["q-text", "q-a", "q-b", "q-c", "q-d"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // AI QUIZ GENERATOR
+      // ══════════════════════════════════════════════════════
+      async function generateQuiz() {
+        const content = document.getElementById("ai-content").value.trim();
+        if (!content)
+          return toast("Please paste some lesson content first", "error");
+
+        const btn = document.getElementById("ai-btn");
+        const output = document.getElementById("ai-output");
+        const result = document.getElementById("ai-result-text");
+
+        btn.disabled = true;
+        btn.textContent = "Generating…";
+        output.classList.remove("hidden");
+        result.innerHTML = `<div class="ai-spinner"><div class="spinner-dots"><span></span><span></span><span></span></div> AI is generating questions…</div>`;
+
+        try {
+          const questions = await api("POST", "/ai/generate-quiz", content);
+          result.textContent = Array.isArray(questions)
+            ? questions.join("\n")
+            : questions;
+          toast("Questions generated!");
+        } catch (e) {
+          result.textContent = `Error: ${e.message}`;
+          toast(e.message, "error");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Generate Questions →";
+        }
+      }
+
+      // ══════════════════════════════════════════════════════
+      // INIT
+      // ══════════════════════════════════════════════════════
+      updateNavForAuth();
+      loadCourses();
+    </script>
+  </body>
+</html>

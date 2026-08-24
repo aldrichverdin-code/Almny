@@ -1,0 +1,39 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Almny WEB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap"
+          rel="stylesheet" />
+    <
+</head>
+<body>
+    <!-- NAVBAR -->
+        <nav class="nav" id="main-nav">
+            <div class="nav-brand">Almn<span>y</span></div>
+            <div class="nav-links">
+                <a class="nav-btn active">Discover</a>
+                <a class="nav-btn">My Learning</a>
+                <a class="nav-btn">Instructor</a>
+            </div>
+            <div class="nav-auth">
+                <a href="register.html" class="btn btn-outline btn-sm">Sign In</a>
+                <a href="register.html" class="btn btn-gold btn-sm">Join Free</a>
+            </div>
+        </nav>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        @RenderBody()
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "MyLearn";
+}
+
+<div class="page active" id="page-my-learning">
+    <div class="page-inner">
+        <div class="section-header">
+            <div class="section-eyebrow">Student Portal</div>
+            <h2 class="section-title">My Learning</h2>
+            <p class="section-sub">
+                Track your progress and continue where you left off
+            </p>
+        </div>
+
+        <div class="tabs">
+            <span class="tab active" data-tab="enrolled">Enrolled Courses</span>
+            <span class="tab" data-tab="progress">Lesson Progress</span>
+            <span class="tab" data-tab="exams">Exams</span>
+        </div>
+
+        <!-- Enrolled -->
+        <div id="learning-enrolled" class="tab-content active">
+            <div class="course-grid" id="enrolled-grid">
+                <!-- Curso inscrito 1 -->
+                <a href="@Url.Action("CourseDetail", "Pages", new { id = 1 })" style="text-decoration: none; color: inherit;">
+                    <div class="course-card">
+                        <div class="course-thumb" style="background: #1e3a5f">
+                            <div class="course-thumb-icon">💻</div>
+                            <div class="course-category-badge">Programming</div>
+                        </div>
+                        <div class="course-info">
+                            <div class="course-title">Full-Stack Web Development</div>
+                            <div class="course-instructor">By Jane Doe</div>
+                            <div class="course-meta">
+                                <div class="course-price">$49.99</div>
+                                <span class="btn btn-outline btn-sm">Enrol</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Curso inscrito 2 -->
+                <a href="@Url.Action("CourseDetail", "Pages", new { id = 2 })" style="text-decoration: none; color: inherit;">
+                    <div class="course-card">
+                        <div class="course-thumb" style="background: #3d1a1a">
+                            <div class="course-thumb-icon">🎨</div>
+                            <div class="course-category-badge">Design</div>
+                        </div>
+                        <div class="course-info">
+                            <div class="course-title">UI/UX Design Mastery</div>
+                            <div class="course-instructor">By Mike Smith</div>
+                            <div class="course-meta">
+                                <div class="course-price free">Free</div>
+                                <span class="btn btn-outline btn-sm">Enrol</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div id="learning-progress" class="tab-content">
+            <div id="progress-list">
+                <!-- Lección 1 -->
+                <div class="lesson-row completed">
+                    <span class="lesson-num">✓</span>
+                    <span class="lesson-name">Introduction to Full-Stack</span>
+                    <span class="lesson-badge free">Completed</span>
+                </div>
+                <!-- Lección 2 -->
+                <div class="lesson-row">
+                    <span class="lesson-num">2</span>
+                    <span class="lesson-name">Setting Up Development Environment</span>
+                    <span class="lesson-badge">In Progress</span>
+                </div>
+                <!-- Lección 3 -->
+                <div class="lesson-row">
+                    <span class="lesson-num">3</span>
+                    <span class="lesson-name">React Components and Hooks</span>
+                    <span class="lesson-badge">Locked</span>
+                </div>
+                <!-- Lección 4 -->
+                <div class="lesson-row">
+                    <span class="lesson-num">4</span>
+                    <span class="lesson-name">State Management with Redux</span>
+                    <span class="lesson-badge">Locked</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exams -->
+        <div id="learning-exams" class="tab-content">
+            <div id="exams-list">
+                <!-- Examen 1 -->
+                <div class="exam-card">
+                    <div class="exam-title-wrap">
+                        <div class="exam-title">Final Exam - Full-Stack Development</div>
+                        <div class="exam-meta">
+                            <span>📋 15 questions</span>
+                            <span>⏱️ 45 minutes</span>
+                            <span>✅ Passing score: 75%</span>
+                            <span style="color: var(--sage);">🔓 Available</span>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Exam", "Pages")" class="btn btn-gold btn-sm">Start Exam</a>
+                </div>
+
+                <!-- Examen 2 -->
+                <div class="exam-card">
+                    <div class="exam-title-wrap">
+                        <div class="exam-title">Module 1 Quiz - HTML Basics</div>
+                        <div class="exam-meta">
+                            <span>📋 10 questions</span>
+                            <span>⏱️ 20 minutes</span>
+                            <span>✅ Passing score: 70%</span>
+                            <span style="color: var(--rust);">🔒 Locked</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline btn-sm" disabled>Locked</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = {
+            'enrolled': document.getElementById('learning-enrolled'),
+            'progress': document.getElementById('learning-progress'),
+            'exams': document.getElementById('learning-exams')
+        };
+
+        // Función para cambiar de pestaña
+        function switchTab(tabId) {
+            // Ocultar todos los contenidos
+            Object.values(contents).forEach(content => {
+                if (content) content.classList.remove('active');
+            });
+
+            // Mostrar el contenido seleccionado
+            if (contents[tabId]) {
+                contents[tabId].classList.add('active');
+            }
+
+            // Actualizar clases de las pestañas
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // Agregar evento click a cada pestaña
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                switchTab(tabId);
+            });
+        });
+
+        // Mostrar la primera pestaña por defecto (enrolled)
+        const firstTab = document.querySelector('.tab.active');
+        if (firstTab) {
+            const defaultTab = firstTab.dataset.tab;
+            switchTab(defaultTab);
+        }
+    });
+</script>
