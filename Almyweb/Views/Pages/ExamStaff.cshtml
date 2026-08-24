@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = "Exam";
+}
+
+<div class="page active" id="page-exam">
+    <div class="page-inner" style="max-width: 720px">
+        <a href="/Pages/MyLearn" class="btn btn-ghost btn-sm mb-2" style="padding-left: 0;">
+            ← Back to My Learning
+        </a>
+
+        <div id="exam-content">
+            <!-- Header del examen -->
+            <div style="background: var(--ink); color: var(--paper); padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem;">
+                    📝 Course Exam
+                </div>
+                <h2 style="font-family: var(--ff-serif); font-size: 1.8rem; font-weight: 300; margin: 0.5rem 0;">
+                    Final Exam - Web Development Basics
+                </h2>
+                <div style="display: flex; gap: 1.5rem; font-size: 0.85rem; color: rgba(244, 241, 235, 0.6); margin-top: 1rem;">
+                    <span>📋 10 questions</span>
+                    <span>⏱️ 30 minutes</span>
+                    <span>✅ Passing score: 70%</span>
+                </div>
+            </div>
+
+            <!-- Progreso -->
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.85rem; font-weight: 500;">Question <span id="current-q">1</span> of <span id="total-q">10</span></span>
+                    <span style="font-size: 0.85rem; color: var(--muted);">⏱️ <span id="timer">29:30</span></span>
+                </div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" style="width: 10%;"></div>
+                </div>
+            </div>
+
+            <!-- Pregunta -->
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <h3 style="font-family: var(--ff-serif); font-size: 1.25rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                    What is the correct HTML tag for creating a hyperlink?
+                </h3>
+
+                <div class="quiz-options">
+                    <div class="quiz-option">
+                        <span class="quiz-option-letter">A</span>
+                        <span>&lt;link&gt;</span>
+                    </div>
+                    <div class="quiz-option selected">
+                        <span class="quiz-option-letter">B</span>
+                        <span>&lt;a&gt;</span>
+                    </div>
+                    <div class="quiz-option">
+                        <span class="quiz-option-letter">C</span>
+                        <span>&lt;href&gt;</span>
+                    </div>
+                    <div class="quiz-option">
+                        <span class="quiz-option-letter">D</span>
+                        <span>&lt;url&gt;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div style="display: flex; justify-content: space-between; gap: 1rem;">
+                <button class="btn btn-outline" style="flex: 1;">
+                    ← Previous
+                </button>
+                <button class="btn btn-primary" style="flex: 1;">
+                    Next →
+                </button>
+            </div>
+
+            <!-- Botón de finalizar -->
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="btn btn-gold" style="width: 100%; max-width: 300px;">
+                    📤 Submit Exam
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Employee Verification Modal - Mostrar al cargar la página -->
+<div id="employeeVerificationModal" class="verification-modal show">
+    <div class="verification-modal-overlay" onclick="closeEmployeeVerification()"></div>
+
+    <div class="verification-modal-content">
+        <button type="button" class="verification-close" onclick="closeEmployeeVerification()">
+            ×
+        </button>
+
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div style="width: 55px; height: 55px; margin: 0 auto 1rem; border-radius: 50%; background: rgba(196, 155, 65, 0.12); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                🔐
+            </div>
+
+            <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem;">
+                EMPLOYEE VERIFICATION
+            </div>
+
+            <h2 style="font-family: var(--ff-serif); font-size: 1.7rem; font-weight: 400; margin: 0 0 0.75rem;">
+                Verify Employee
+            </h2>
+
+            <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin: 0;">
+                Please verify that you are an employee before starting the exam.
+            </p>
+        </div>
+
+        <!-- Form -->
+        <form id="employeeVerificationForm">
+            <!-- Employee Number -->
+            <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem;">
+                    Employee Number
+                </label>
+                <input type="text" id="employeeNumber" name="employeeNumber" class="form-control" placeholder="Enter your employee number" required />
+            </div>
+
+            <!-- Badge -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.5rem;">
+                    Employee Badge
+                </label>
+
+                <div class="badge-upload">
+                    <input type="file" id="employeeBadge" name="employeeBadge" accept=".jpg,.jpeg,image/jpeg" required />
+
+                    <div class="badge-upload-content">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📷</div>
+                        <div style="font-size: 0.85rem; font-weight: 600;">Upload your employee badge</div>
+                        <div style="font-size: 0.72rem; color: var(--muted); margin-top: 0.35rem;">JPG or JPEG only</div>
+                    </div>
+                </div>
+
+                <div id="fileName" style="font-size: 0.72rem; color: var(--muted); margin-top: 0.5rem;"></div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-gold" style="width: 100%;">
+                Verify & Start Exam
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1rem; font-size: 0.7rem; color: var(--muted);">
+            🔒 Your information will be used for employee verification only.
+        </div>
+    </div>
+</div>
+
+<script>
+    // Función para abrir el modal
+    function openEmployeeVerification() {
+        const modal = document.getElementById("employeeVerificationModal");
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+    }
+
+    // Función para cerrar el modal
+    function closeEmployeeVerification() {
+        const modal = document.getElementById("employeeVerificationModal");
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+
+    // Mostrar nombre del archivo seleccionado
+    document.getElementById("employeeBadge").addEventListener("change", function() {
+        const fileName = document.getElementById("fileName");
+        if (this.files.length > 0) {
+            const file = this.files[0];
+            fileName.textContent = "Selected file: " + file.name;
+        } else {
+            fileName.textContent = "";
+        }
+    });
+
+    // Submit del formulario
+    document.getElementById("employeeVerificationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const employeeNumber = document.getElementById("employeeNumber").value;
+        const badge = document.getElementById("employeeBadge").files[0];
+
+        if (!employeeNumber) {
+            alert("Please enter your employee number.");
+            return;
+        }
+
+        if (!badge) {
+            alert("Please upload your employee badge.");
+            return;
+        }
+
+        // Cerrar modal
+        closeEmployeeVerification();
+
+        // Aquí puedes redirigir a la página del examen o continuar
+        alert("Verification successful! You can now start the exam.");
+        // window.location.href = '@Url.Action("ExamStaff", "Pages")';
+    });
+
+    // Al cargar la página, mostrar el modal automáticamente
+    document.addEventListener('DOMContentLoaded', function() {
+        openEmployeeVerification();
+    });
+</script>

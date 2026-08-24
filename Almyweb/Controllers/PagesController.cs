@@ -39,5 +39,9 @@ namespace Almyweb.Controllers
             ViewBag.ExamName = exam ?? "Final Exam";
             return View();
         }
+        public IActionResult ExamStaff()
+        {
+            return View();
+        }
     }
 }
