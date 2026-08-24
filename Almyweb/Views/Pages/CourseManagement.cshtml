@@ -1,0 +1,541 @@
+﻿@{
+    ViewData["Title"] = "Course Management";
+    var courseId = ViewBag.CourseId ?? 0;
+
+    // Datos de ejemplo para el instructor
+    var course = new
+    {
+        Title = "Full-Stack Web Development",
+        Category = "Programming",
+        Instructor = "You",
+        Price = "$49.99",
+        Description = "Master full-stack development with React, Node.js, and MongoDB.",
+        Created = "2024-01-15",
+        LastUpdated = "2024-02-20",
+        TotalStudents = 12,
+        TotalSections = 3,
+        TotalLessons = 12,
+        TotalExams = 2,
+        AverageRating = 4.7,
+        EnrolledStudents = new List<dynamic> {
+            new { Name = "John Doe", Email = "john@example.com", Progress = 75, Joined = "2024-01-20" },
+            new { Name = "Jane Smith", Email = "jane@example.com", Progress = 45, Joined = "2024-01-22" },
+            new { Name = "Mike Johnson", Email = "mike@example.com", Progress = 90, Joined = "2024-01-25" },
+            new { Name = "Sarah Williams", Email = "sarah@example.com", Progress = 30, Joined = "2024-02-01" }
+        },
+        ExamResults = new List<dynamic> {
+            new { Student = "John Doe", Exam = "Final Exam", Score = 85, Status = "Passed", Date = "2024-02-15" },
+            new { Student = "Jane Smith", Exam = "Final Exam", Score = 62, Status = "Failed", Date = "2024-02-16" },
+            new { Student = "Mike Johnson", Exam = "Final Exam", Score = 92, Status = "Passed", Date = "2024-02-17" },
+            new { Student = "John Doe", Exam = "Module 1 Quiz", Score = 78, Status = "Passed", Date = "2024-01-25" },
+            new { Student = "Mike Johnson", Exam = "Module 1 Quiz", Score = 88, Status = "Passed", Date = "2024-01-26" }
+        }
+    };
+}
+
+<div class="page active" id="page-course-management">
+    <div class="page-inner">
+        <!-- Header con información del curso -->
+        <div style="background: var(--ink); color: var(--paper); padding: 2rem; border-radius: 10px; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <a href="/Pages/Instructor" class="btn btn-ghost btn-sm" style="color: rgba(244, 241, 235, 0.5); padding-left: 0;">
+                        ← Back to Dashboard
+                    </a>
+                    <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-top: 1rem;">
+                        @course.Category
+                    </div>
+                    <h1 style="font-family: var(--ff-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; margin: 0.5rem 0 0.75rem;">
+                        @course.Title
+                    </h1>
+                    <p style="font-size: 0.9rem; color: rgba(244, 241, 235, 0.7); max-width: 560px;">
+                        @course.Description
+                    </p>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 0.82rem; color: rgba(244, 241, 235, 0.55);">
+                        <span>👤 @course.Instructor</span>
+                        <span>📅 Created: @course.Created</span>
+                        <span>🔄 Updated: @course.LastUpdated</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 1.5rem; min-width: 200px;">
+                    <div style="font-family: var(--ff-serif); font-size: 2rem; font-weight: 600; color: var(--gold);">
+                        @course.Price
+                    </div>
+                    <div style="font-size: 0.78rem; color: rgba(244, 241, 235, 0.5);">
+                        ⭐ @course.AverageRating / 5.0
+                    </div>
+                    <div style="font-size: 0.78rem; color: rgba(244, 241, 235, 0.5); margin-top: 0.5rem;">
+                        👨‍🎓 @course.TotalStudents students
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats rápidas -->
+        <div class="dash-grid" style="margin-bottom: 2rem;">
+            <div class="dash-stat">
+                <div class="dash-stat-icon gold">📚</div>
+                <div>
+                    <div class="dash-stat-val">@course.TotalSections</div>
+                    <div class="dash-stat-lbl">Sections</div>
+                </div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-icon sage">📖</div>
+                <div>
+                    <div class="dash-stat-val">@course.TotalLessons</div>
+                    <div class="dash-stat-lbl">Lessons</div>
+                </div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-icon rust">📝</div>
+                <div>
+                    <div class="dash-stat-val">@course.TotalExams</div>
+                    <div class="dash-stat-lbl">Exams</div>
+                </div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-stat-icon ink">👨‍🎓</div>
+                <div>
+                    <div class="dash-stat-val">@course.TotalStudents</div>
+                    <div class="dash-stat-lbl">Students Enrolled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <span class="tab active" data-tab="students">Students</span>
+            <span class="tab" data-tab="exams-results">Exam Results</span>
+            <span class="tab" data-tab="content">Course Content</span>
+            <span class="tab" data-tab="attendance">Attendance</span>
+            <span class="tab" data-tab="analytics">Analytics</span>
+        </div>
+
+        <!-- Students -->
+        <div id="tab-students" class="tab-content active">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--cream); border-bottom: 2px solid var(--border);">
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Student</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Email</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Progress</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Joined</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in course.EnrolledStudents)
+                        {
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; font-weight: 500;">@student.Name</td>
+                                <td style="padding: 0.75rem 1rem; color: var(--muted);">@student.Email</td>
+                                <td style="padding: 0.75rem 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <div class="progress-bar-wrap" style="flex: 1; max-width: 120px;">
+                                            <div class="progress-bar-fill" style="width: @student.Progress%;"></div>
+                                        </div>
+                                        <span style="font-size: 0.82rem; font-weight: 500; min-width: 35px;">@student.Progress%</span>
+                                    </div>
+                                </td>
+                                <td style="padding: 0.75rem 1rem; color: var(--muted); font-size: 0.85rem;">@student.Joined</td>
+                                <td style="padding: 0.75rem 1rem;">
+                                    <button class="btn btn-ghost btn-sm">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Exam Results -->
+        <div id="tab-exams-results" class="tab-content">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--cream); border-bottom: 2px solid var(--border);">
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Student</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Exam</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Score</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Status</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Date</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in course.ExamResults)
+                        {
+                            var statusColor = result.Status == "Passed" ? "var(--sage)" : "var(--rust)";
+                            var statusBg = result.Status == "Passed" ? "rgba(90, 122, 106, 0.15)" : "rgba(192, 85, 58, 0.15)";
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 0.75rem 1rem; font-weight: 500;">@result.Student</td>
+                                <td style="padding: 0.75rem 1rem;">@result.Exam</td>
+                                <td style="padding: 0.75rem 1rem; font-weight: 600;">@result.Score%</td>
+                                <td style="padding: 0.75rem 1rem;">
+                                    <span style="display: inline-block; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.78rem; font-weight: 500; background: @statusBg; color: @statusColor;">
+                                        @result.Status
+                                    </span>
+                                </td>
+                                <td style="padding: 0.75rem 1rem; color: var(--muted); font-size: 0.85rem;">@result.Date</td>
+                                <td style="padding: 0.75rem 1rem;">
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <a href="@Url.Action("ViewExam", "Pages", new { student = result.Student, exam = result.Exam })" class="btn btn-ghost btn-sm">👁️ View</a>
+                                        <a href="@Url.Action("GradeExam", "Pages", new { student = result.Student, exam = result.Exam })" class="btn btn-gold btn-sm">✏️ Grade</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Course Content -->
+        <div id="tab-content" class="tab-content">
+            <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.3rem;">Course Structure</h3>
+                    <button class="btn btn-primary btn-sm">+ Add Section</button>
+                </div>
+
+                <!-- Section 1 -->
+                <div style="border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; overflow: hidden;">
+                    <div style="background: var(--cream); padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-weight: 600;">Section 1: Getting Started</div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-ghost btn-sm">✏️ Edit</button>
+                            <button class="btn btn-ghost btn-sm">➕ Lesson</button>
+                        </div>
+                    </div>
+                    <div style="padding: 0.5rem;">
+                        <div class="lesson-row">
+                            <span class="lesson-num">1</span>
+                            <span class="lesson-name">Introduction to the Course</span>
+                            <span class="lesson-badge free">Free</span>
+                            <button class="btn btn-ghost btn-sm" style="margin-left: auto;">✏️</button>
+                        </div>
+                        <div class="lesson-row">
+                            <span class="lesson-num">2</span>
+                            <span class="lesson-name">Setting Up Your Environment</span>
+                            <span class="lesson-badge">Premium</span>
+                            <button class="btn btn-ghost btn-sm" style="margin-left: auto;">✏️</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div style="border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; overflow: hidden;">
+                    <div style="background: var(--cream); padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-weight: 600;">Section 2: React Fundamentals</div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-ghost btn-sm">✏️ Edit</button>
+                            <button class="btn btn-ghost btn-sm">➕ Lesson</button>
+                        </div>
+                    </div>
+                    <div style="padding: 0.5rem;">
+                        <div class="lesson-row">
+                            <span class="lesson-num">3</span>
+                            <span class="lesson-name">Components and Props</span>
+                            <span class="lesson-badge">Premium</span>
+                            <button class="btn btn-ghost btn-sm" style="margin-left: auto;">✏️</button>
+                        </div>
+                        <div class="lesson-row">
+                            <span class="lesson-num">4</span>
+                            <span class="lesson-name">State and Lifecycle</span>
+                            <span class="lesson-badge">Premium</span>
+                            <button class="btn btn-ghost btn-sm" style="margin-left: auto;">✏️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance -->
+        <div id="tab-attendance" class="tab-content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <!-- Subir archivo PDF -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="font-family: var(--ff-serif); font-size: 1.1rem; margin-bottom: 1rem;">📤 Upload Attendance List</h4>
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem;">
+                        Upload a PDF file with the attendance list for this course.
+                    </p>
+
+                    <form method="post" enctype="multipart/form-data" action="@Url.Action("UploadAttendance", "Pages")">
+                        <div class="form-group">
+                            <label class="form-label">Select PDF File</label>
+                            <div style="border: 2px dashed var(--border); border-radius: var(--r); padding: 2rem; text-align: center; transition: border-color 0.2s; cursor: pointer;" id="drop-zone">
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">📄</div>
+                                <div style="font-size: 0.9rem; font-weight: 500;">Drop your PDF here or click to browse</div>
+                                <div style="font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem;">Maximum file size: 10MB</div>
+                                <input type="file" name="attendanceFile" accept=".pdf" style="display: none;" id="file-input" onchange="handleFileSelect(this)">
+                                <button type="button" class="btn btn-outline btn-sm mt-2" onclick="document.getElementById('file-input').click()">Browse Files</button>
+                            </div>
+                            <div id="file-info" style="display: none; margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--cream); border-radius: var(--r); font-size: 0.85rem;">
+                                <span id="file-name"></span>
+                                <span style="color: var(--muted); margin-left: 1rem;" id="file-size"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Session / Date</label>
+                            <input type="text" class="form-input" placeholder="e.g. Week 1 - Introduction" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Notes (optional)</label>
+                            <textarea class="form-textarea" placeholder="Additional notes about this attendance list..." style="min-height: 60px;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            📤 Upload Attendance List
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Lista de asistencias subidas -->
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="font-family: var(--ff-serif); font-size: 1.1rem; margin-bottom: 1rem;">📋 Uploaded Lists</h4>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Item 1 -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--cream); border-radius: var(--r);">
+                            <div>
+                                <div style="font-weight: 500; font-size: 0.9rem;">📄 attendance_week1.pdf</div>
+                                <div style="font-size: 0.75rem; color: var(--muted);">Uploaded: 2024-02-15 • 245 KB</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="#" class="btn btn-ghost btn-sm">👁️ View</a>
+                                <a href="#" class="btn btn-ghost btn-sm">⬇️ Download</a>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--cream); border-radius: var(--r);">
+                            <div>
+                                <div style="font-weight: 500; font-size: 0.9rem;">📄 attendance_week2.pdf</div>
+                                <div style="font-size: 0.75rem; color: var(--muted);">Uploaded: 2024-02-22 • 312 KB</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="#" class="btn btn-ghost btn-sm">👁️ View</a>
+                                <a href="#" class="btn btn-ghost btn-sm">⬇️ Download</a>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: var(--cream); border-radius: var(--r);">
+                            <div>
+                                <div style="font-weight: 500; font-size: 0.9rem;">📄 attendance_final.pdf</div>
+                                <div style="font-size: 0.75rem; color: var(--muted);">Uploaded: 2024-03-01 • 456 KB</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <a href="#" class="btn btn-ghost btn-sm">👁️ View</a>
+                                <a href="#" class="btn btn-ghost btn-sm">⬇️ Download</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.78rem; color: var(--muted);">
+                        Showing 3 of 3 uploaded files
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div id="tab-analytics" class="tab-content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="font-family: var(--ff-serif); font-size: 1.1rem; margin-bottom: 1rem;">📊 Student Engagement</h4>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Course Completion Rate</span>
+                                <span style="font-weight: 600;">65%</span>
+                            </div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Average Lesson Progress</span>
+                                <span style="font-weight: 600;">58%</span>
+                            </div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" style="width: 58%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                <span>Exam Pass Rate</span>
+                                <span style="font-weight: 600;">75%</span>
+                            </div>
+                            <div class="progress-bar-wrap">
+                                <div class="progress-bar-fill" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+                    <h4 style="font-family: var(--ff-serif); font-size: 1.1rem; margin-bottom: 1rem;">📈 Course Stats</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <div style="font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;">Total Views</div>
+                            <div style="font-family: var(--ff-serif); font-size: 1.5rem; font-weight: 600;">1,247</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;">Enrollments</div>
+                            <div style="font-family: var(--ff-serif); font-size: 1.5rem; font-weight: 600;">12</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;">Average Rating</div>
+                            <div style="font-family: var(--ff-serif); font-size: 1.5rem; font-weight: 600;">⭐ 4.7</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;">Revenue</div>
+                            <div style="font-family: var(--ff-serif); font-size: 1.5rem; font-weight: 600;">$1,499</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tab-content {
+        display: none;
+        animation: pageFade 0.3s ease;
+    }
+
+        .tab-content.active {
+            display: block;
+        }
+
+    .tab {
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .tab:hover {
+            color: var(--ink);
+        }
+
+    #drop-zone:hover {
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.05);
+    }
+
+    #drop-zone.dragover {
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.1);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab');
+        const contents = {};
+
+        tabs.forEach(tab => {
+            const tabId = tab.dataset.tab;
+            const content = document.getElementById('tab-' + tabId);
+            if (content) {
+                contents[tabId] = content;
+            }
+        });
+
+        function switchTab(tabId) {
+            Object.values(contents).forEach(content => {
+                if (content) content.classList.remove('active');
+            });
+
+            if (contents[tabId]) {
+                contents[tabId].classList.add('active');
+            }
+
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.dataset.tab;
+                switchTab(tabId);
+            });
+        });
+
+        const firstTab = document.querySelector('.tab.active');
+        if (firstTab) {
+            const defaultTab = firstTab.dataset.tab;
+            switchTab(defaultTab);
+        }
+
+        // Drag and drop para archivos
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+                    fileInput.files = files;
+                    updateFileInfo(file);
+                } else {
+                    alert('Please upload a PDF file.');
+                }
+            }
+        });
+
+        dropZone.addEventListener('click', function() {
+            fileInput.click();
+        });
+    });
+
+    function handleFileSelect(input) {
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+                updateFileInfo(file);
+            } else {
+                alert('Please upload a PDF file.');
+                input.value = '';
+            }
+        }
+    }
+
+    function updateFileInfo(file) {
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+
+        fileInfo.style.display = 'block';
+        fileName.textContent = '📄 ' + file.name;
+        const sizeInKB = (file.size / 1024).toFixed(2);
+        const sizeInMB = (file.size / (1024 * 1024)).toFixed(2);
+        fileSize.textContent = sizeInMB >= 1 ? sizeInMB + ' MB' : sizeInKB + ' KB';
+    }
+</script>
