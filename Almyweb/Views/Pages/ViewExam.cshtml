@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = "View Exam";
+    var studentName = ViewBag.StudentName ?? "John Doe";
+    var examName = ViewBag.ExamName ?? "Final Exam";
+}
+
+<div class="page active" id="page-view-exam">
+    <div class="page-inner" style="max-width: 900px;">
+        <a href="@Url.Action("CourseManagement", "Pages", new { id = 1 })" class="btn btn-ghost btn-sm mb-2" style="padding-left: 0;">
+            ← Back to Course Management
+        </a>
+
+        <!-- Header -->
+        <div style="background: var(--ink); color: var(--paper); padding: 2rem; border-radius: 10px; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <div style="font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem;">
+                        📝 Student Exam
+                    </div>
+                    <h2 style="font-family: var(--ff-serif); font-size: 1.8rem; font-weight: 300; margin: 0.5rem 0;">
+                        @examName
+                    </h2>
+                    <div style="display: flex; gap: 1rem; font-size: 0.85rem; color: rgba(244, 241, 235, 0.6); margin-top: 0.5rem; flex-wrap: wrap;">
+                        <span>👤 Student: <strong style="color: var(--paper);">@studentName</strong></span>
+                        <span>📋 10 questions</span>
+                        <span>✅ Passing score: 70%</span>
+                    </div>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; padding: 1rem 1.5rem; text-align: center; min-width: 120px;">
+                    <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(244, 241, 235, 0.4);">Total Score</div>
+                    <div style="font-family: var(--ff-serif); font-size: 2rem; font-weight: 600; color: var(--gold);">76</div>
+                    <div style="font-size: 0.75rem; color: var(--sage);">✅ Passed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preguntas del examen -->
+        <div id="view-questions">
+            <!-- Pregunta 1 - Opción Múltiple (Correcta) -->
+            <div class="view-question" style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.1rem; line-height: 1.5;">
+                        <span style="color: var(--gold); font-weight: 600;">1.</span>
+                        What is the correct HTML tag for creating a hyperlink?
+                    </h3>
+                    <span class="chip chip-gold">Multiple Choice</span>
+                </div>
+
+                <div style="background: var(--cream); padding: 0.75rem 1rem; border-radius: var(--r); margin: 0.5rem 0;">
+                    <div style="font-size: 0.75rem; color: var(--muted);">Student's Answer:</div>
+                    <div style="font-weight: 500;">B. &lt;a&gt;</div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--sage);">✅ Correct</span>
+                        <span style="font-size: 0.78rem; color: var(--muted);">(10/10)</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--muted);">
+                        Correct answer: <strong>B. &lt;a&gt;</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 2 - Opción Múltiple (Incorrecta) -->
+            <div class="view-question" style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.1rem; line-height: 1.5;">
+                        <span style="color: var(--gold); font-weight: 600;">2.</span>
+                        Which CSS property is used to change the text color?
+                    </h3>
+                    <span class="chip chip-gold">Multiple Choice</span>
+                </div>
+
+                <div style="background: var(--cream); padding: 0.75rem 1rem; border-radius: var(--r); margin: 0.5rem 0;">
+                    <div style="font-size: 0.75rem; color: var(--muted);">Student's Answer:</div>
+                    <div style="font-weight: 500;">A. font-color</div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--rust);">❌ Incorrect</span>
+                        <span style="font-size: 0.78rem; color: var(--muted);">(0/10)</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--muted);">
+                        Correct answer: <strong>C. color</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 3 - Pregunta Abierta -->
+            <div class="view-question" style="background: var(--card); border: 2px solid var(--gold); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.1rem; line-height: 1.5;">
+                        <span style="color: var(--gold); font-weight: 600;">3.</span>
+                        Explain the difference between `let`, `const`, and `var` in JavaScript. Provide examples.
+                    </h3>
+                    <span class="chip chip-sage">Open Answer</span>
+                </div>
+
+                <div style="background: var(--cream); padding: 0.75rem 1rem; border-radius: var(--r); margin: 0.5rem 0;">
+                    <div style="font-size: 0.75rem; color: var(--muted);">Student's Answer:</div>
+                    <div style="white-space: pre-wrap; line-height: 1.6;">
+                        var is function-scoped and can be redeclared. let is block-scoped and cannot be redeclared in the same scope.
+                        const is block-scoped and cannot be reassigned. For example: var x = 1; let y = 2; const z = 3;
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">Score</div>
+                        <div style="font-family: var(--ff-serif); font-size: 1.3rem; font-weight: 600; color: var(--gold);">8/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">Feedback</div>
+                        <div style="font-size: 0.85rem; color: var(--sage);">✅ Good explanation with examples</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 4 - Pregunta Abierta -->
+            <div class="view-question" style="background: var(--card); border: 2px solid var(--gold); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.1rem; line-height: 1.5;">
+                        <span style="color: var(--gold); font-weight: 600;">4.</span>
+                        Describe the CSS Box Model and its components.
+                    </h3>
+                    <span class="chip chip-sage">Open Answer</span>
+                </div>
+
+                <div style="background: var(--cream); padding: 0.75rem 1rem; border-radius: var(--r); margin: 0.5rem 0;">
+                    <div style="font-size: 0.75rem; color: var(--muted);">Student's Answer:</div>
+                    <div style="white-space: pre-wrap; line-height: 1.6;">
+                        The CSS Box Model consists of content, padding, border, and margin. Content is the actual content of the element.
+                        Padding is space between content and border. Border is the line around the element. Margin is space outside the border.
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">Score</div>
+                        <div style="font-family: var(--ff-serif); font-size: 1.3rem; font-weight: 600; color: var(--gold);">6/10</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--muted);">Feedback</div>
+                        <div style="font-size: 0.85rem; color: var(--muted);">📝 Satisfactory, could add more detail</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta 5 - Opción Múltiple (Correcta) -->
+            <div class="view-question" style="background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-family: var(--ff-serif); font-size: 1.1rem; line-height: 1.5;">
+                        <span style="color: var(--gold); font-weight: 600;">5.</span>
+                        What does CSS stand for?
+                    </h3>
+                    <span class="chip chip-gold">Multiple Choice</span>
+                </div>
+
+                <div style="background: var(--cream); padding: 0.75rem 1rem; border-radius: var(--r); margin: 0.5rem 0;">
+                    <div style="font-size: 0.75rem; color: var(--muted);">Student's Answer:</div>
+                    <div style="font-weight: 500;">B. Cascading Style Sheets</div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 0.85rem; font-weight: 600; color: var(--sage);">✅ Correct</span>
+                        <span style="font-size: 0.78rem; color: var(--muted);">(10/10)</span>
+                    </div>
+                    <div style="font-size: 0.78rem; color: var(--muted);">
+                        Correct answer: <strong>B. Cascading Style Sheets</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+            <a href="@Url.Action("GradeExam", "Pages", new { student = studentName, exam = examName })" class="btn btn-gold" style="min-width: 150px;">
+                ✏️ Grade Exam
+            </a>
+            <a href="@Url.Action("CourseManagement", "Pages", new { id = 1 })" class="btn btn-outline" style="min-width: 150px;">
+                ← Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .view-question {
+        transition: box-shadow 0.2s;
+    }
+
+        .view-question:hover {
+            box-shadow: var(--shadow);
+        }
+
+    .chip-gold {
+        background: rgba(201, 168, 76, 0.15);
+        color: var(--gold-dim);
+    }
+
+    .chip-sage {
+        background: rgba(90, 122, 106, 0.15);
+        color: var(--sage);
+    }
+</style>

@@ -1371,3 +1371,26 @@ img {
     cursor: pointer;
     user-select: none;
 }
+
+.tab-content {
+    display: none;
+    animation: pageFade 0.3s ease;
+}
+
+    .tab-content.active {
+        display: block;
+    }
+
+.tab {
+    cursor: pointer;
+    user-select: none;
+}
+
+    .tab:hover {
+        color: var(--ink);
+    }
+
+/* Ocultar el output de AI por defecto */
+#ai-output {
+    margin-top: 1rem;
+}
