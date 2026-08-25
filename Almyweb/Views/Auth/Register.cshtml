@@ -5,7 +5,7 @@
     <div class="auth-card">
         <div class="auth-header">
             <h1 class="auth-title">Create Account</h1>
-            <p class="auth-subtitle">Join Almny and start learning</p>
+            <p class="auth-subtitle">Start training with AMTC</p>
         </div>
 
         <form class="auth-form">
@@ -15,8 +15,8 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-control" placeholder="Enter your email" />
+                <label class="form-label">Employee Number</label>
+                <input type="number" class="form-control" placeholder="Enter your Employee Number" />
             </div>
 
             <div class="form-group">
@@ -30,12 +30,26 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">I want to...</label>
+                <label class="form-label">You are...</label>
                 <select class="form-control">
-                    <option value="Student">Learn as a Student</option>
-                    <option value="Instructor">Teach as an Instructor</option>
+                    <option value="Student">Student</option>
+                    <option value="Instructor">Instructor</option>
                 </select>
             </div>
+
+            @* <div class="form-group">
+                <label class="form-label">Employee Badge</label>
+                <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+                    <input type="file" id="photoInput" name="profilePhoto" accept=".jpg,.jpeg,.png,.gif" style="display: none;" onchange="previewPhoto(event)" />
+                    <div class="photo-upload-content" id="photoPlaceholder">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📸</div>
+                        <div style="font-weight: 500; font-size: 0.95rem;">Click to upload photo</div>
+                        <div style="font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem;">JPG, PNG or GIF (max 5MB)</div>
+                    </div>
+                    <img id="photoPreview" style="display: none; width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px;" />
+                </div>
+                <div id="fileName" style="font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; text-align: center;"></div>
+            </div> *@
 
             <a href="/Auth/Login" class="btn btn-gold btn-block">Create Account</a>
 
